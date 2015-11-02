@@ -1,3 +1,1 @@
-var foodCollection = new FoodItemsCollection();
-
-foodCollection.fetch();
+console.log(app.foodCollection.length);
