@@ -1,1 +1,1 @@
-console.log(app.foodCollection.length);
+new app.AppView();
