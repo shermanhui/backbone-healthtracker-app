@@ -68,6 +68,8 @@ app.FoodItemView = Backbone.View.extend({
 
 // iterate through foodlist
 app.FoodListView = Backbone.View.extend({
+	el: "#foods",
+
 	tagName: "ul",
 
 	initialize: function(){
@@ -87,7 +89,10 @@ app.FoodListView = Backbone.View.extend({
 
 });
 
+// individual search bar view
 app.SearchView = Backbone.View.extend({
+
+	el: "#search",
 
 	searchTemplate: _.template($("#search-template").html()),
 
@@ -102,8 +107,8 @@ app.SearchView = Backbone.View.extend({
 	}
 })
 
-var searchBar = new app.SearchView({el: ".header"});
-app.AppView = new app.FoodListView({el: "#foods", model: app.foods});
+var searchBar = new app.SearchView();
+app.AppView = new app.FoodListView({model: app.foods});
 
 app.AppView.render();
 searchBar.render();

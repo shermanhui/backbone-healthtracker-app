@@ -16,25 +16,29 @@
     <body>
         <section class="container">
 
-            <header class="header">
-
+            <header id="header">
+                <h2>Health Tracker App</h2>
             </header>
 
-            <section class="foodlist">
+            <section id="search">
+
+            </section>
+
+            <section id="foodlist">
                 <h2>Search List</h2>
                 <p>List of foods returned from query</p>
                 <ul id="foods"></ul>
             </section>
 
-            <section class="selectedfood">
+            <section id="selectedfood">
                 <h2>Details</h2>
-                <p>Your selected item will display here<p>
+                <p>Select a Food Item from the List to see details here!<p>
                 <div id="selectedfood"></div>
             </section>
 
-            <section class="caloriesreport">
+            <section id="caloriesreport">
                 <h2> What You've Eaten So Far! </h2>
-                <p>Everything you've eaten and the total calories will display here</p>
+                <p>Everything you've eaten and a calorie report</p>
                 <div id="fooddiary">
                     <ul id="totalfoods"></ul>
                     <label id="totalcalories"></label>
@@ -43,7 +47,6 @@
 
         </section>
         <script type="text/template" id="search-template">
-            <h2>Health Tracker App</h2>
             <input type="text" placeholder="What Did You Eat?" autofocus id="searchbar">
         </script>
         <script type="text/template" id="list-template">
