@@ -17,25 +17,27 @@
         <section class="container">
 
             <header class="header">
-                <h1>Health Tracker App</h1>
-                <input type="text" placeholder="What Did You Eat?" autofocus id="searchbar">
+
             </header>
 
             <section class="foodlist">
+                <h2>Search List</h2>
                 <ul id="foods"></ul>
             </section>
 
             <section class="selectedfood">
-
+                <h2>Details</h2>
+                <p>Your selected item will display here<p>
             </section>
 
             <section class="caloriesreport">
-
+                <h2> What You've Eaten So Far! </h2>
             </section>
 
         </section>
-        <script type="text/template" id="input-template">
-            <input type="text" placeholder="What'd ya eat?"autofocus id="searchbar"></input>
+        <script type="text/template" id="search-template">
+            <h2>Health Tracker App</h2>
+            <input type="text" placeholder="What Did You Eat?" autofocus id="searchbar">
         </script>
         <script type="text/template" id="list-template">
             <li><%- name %> - <%- foodID %>, <%- calories %> calories </li>

@@ -13,6 +13,8 @@ app.FoodItem = Backbone.Model.extend({
 
 	},
 
+	urlRoot: "https://api.nutritionix.com/v1_1/search/mcdonalds?results=0:20&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31",
+
 	validate: function(attrs){
 		if (!attrs.name){
 			return "Name is required.";
@@ -21,27 +23,27 @@ app.FoodItem = Backbone.Model.extend({
 });
 
 // Declare food collection variable
-app.FoodList = Backbone.Collection.extend({
+var FoodList = Backbone.Collection.extend({
 
 	model: app.FoodItem,
 
 	// sample API call for mcdonalds items
-	//url: "https://api.nutritionix.com/v1_1/search/mcdonalds?results=0:20&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31"
+	url: "https://api.nutritionix.com/v1_1/search/mcdonalds?results=0:20&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31"
 
 });
 
-// create global collection
-//app.foods = new FoodItemsCollection()
-
 // sample list of food items
-var foods = new app.FoodList([
-	new app.FoodItem({name: "apple", foodID: "fruit", calories: 100}),
-	new app.FoodItem({name: "orange", foodID: "fruit", calories: 200}),
-	new app.FoodItem({name: "banana", foodID: "fruit", calories: 300})
-]);
+// var foods = new app.FoodList([
+// 	new app.FoodItem({name: "apple", foodID: "fruit", calories: 100}),
+// 	new app.FoodItem({name: "orange", foodID: "fruit", calories: 200}),
+// 	new app.FoodItem({name: "banana", foodID: "fruit", calories: 300})
+// ]);
+
+// create global collection
+app.foods = new FoodList();
 
 // get the mcdonalds items
-//app.foodCollection.fetch();
+app.foods.fetch();
 
 
 // Dom element for individual food items
@@ -49,14 +51,14 @@ app.FoodItemView = Backbone.View.extend({
 
 	tagName: 'li',
 
-	myTemplate: _.template($("#list-template").html()),
+	listTemplate: _.template($("#list-template").html()),
 
 	initialize: function(){
 
 	},
 
 	render: function(){
-		this.$el.html(this.myTemplate(this.model.toJSON()));
+		this.$el.html(this.listTemplate(this.model.toJSON()));
 
 		return this;
 	}
@@ -85,7 +87,25 @@ app.FoodListView = Backbone.View.extend({
 
 });
 
-app.AppView = new app.FoodListView({el: "#foods", model: foods})
+app.SearchView = Backbone.View.extend({
+
+	searchTemplate: _.template($("#search-template").html()),
+
+	initialize: function(){
+
+	},
+
+	render: function(){
+		this.$el.html(this.searchTemplate());
+
+		return this;
+	}
+})
+
+var searchBar = new app.SearchView({el: ".header"});
+app.AppView = new app.FoodListView({el: "#foods", model: app.foods});
 
 app.AppView.render();
+searchBar.render();
+
 
