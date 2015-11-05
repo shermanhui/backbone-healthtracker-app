@@ -35,15 +35,13 @@ app.FoodList = Backbone.Collection.extend({
 
 // sample list of food items
 var foods = new app.FoodList([
-	new app.FoodItem({name: "apple"}),
-	new app.FoodItem({name: "orange"}),
-	new app.FoodItem({name: "banana"})
+	new app.FoodItem({name: "apple", foodID: "fruit", calories: 100}),
+	new app.FoodItem({name: "orange", foodID: "fruit", calories: 200}),
+	new app.FoodItem({name: "banana", foodID: "fruit", calories: 300})
 ]);
 
 // get the mcdonalds items
 //app.foodCollection.fetch();
-
-console.log(foods);
 
 
 // Dom element for individual food items
@@ -51,19 +49,20 @@ app.FoodItemView = Backbone.View.extend({
 
 	tagName: 'li',
 
+	myTemplate: _.template($("#list-template").html()),
+
 	initialize: function(){
 
 	},
 
 	render: function(){
-		this.$el.html(this.model.get("name"));
+		this.$el.html(this.myTemplate(this.model.toJSON()));
 
 		return this;
 	}
 
 });
 
-//app.foodview = new app.FoodsView();
 
 // iterate through foodlist
 app.FoodListView = Backbone.View.extend({
