@@ -14,15 +14,35 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
     </head>
     <body>
+        <section class="container">
+
+            <header class="header">
+                <h1>Health Tracker App</h1>
+                <input type="text" placeholder="What Did You Eat?" autofocus id="searchbar">
+            </header>
+
+            <section class="foodlist">
+                <ul id="foods"></ul>
+            </section>
+
+            <section class="selectedfood">
+
+            </section>
+
+            <section class="caloriesreport">
+
+            </section>
+
+        </section>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
         <script src="https://cdn.firebase.com/js/client/2.3.1/firebase.js"></script>
         <script src="https://cdn.firebase.com/libs/backbonefire/0.5.1/backbonefire.min.js"></script>
         <script src="js/model.js"></script>
-        <script src="js/collections.js"></script>
+        <!--<script src="js/collections.js"></script>
         <script src="js/views/fooditemsview.js"></script>
-        <script src="js/views/appview.js"></script>
+        <script src="js/views/appview.js"></script>-->
 
         <script type="text/html" id="input-template">
             <input type="text" placeholder="What'd ya eat?"autofocus id="searchbar"></input>
