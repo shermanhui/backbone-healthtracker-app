@@ -3,6 +3,12 @@ var app = app || {};
 // Food Model
 app.FoodItem = Backbone.Model.extend({
 
+	initialize: function(){
+
+		console.log("I'm a model :)");
+
+	},
+
 	defaults: {
 
 		name: '',
@@ -12,8 +18,6 @@ app.FoodItem = Backbone.Model.extend({
 		calories: 0
 
 	},
-
-	urlRoot: "https://api.nutritionix.com/v1_1/search/mcdonalds?results=0:20&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31",
 
 	validate: function(attrs){
 		if (!attrs.name){
@@ -27,31 +31,35 @@ app.FoodList = Backbone.Collection.extend({
 
 	model: app.FoodItem,
 
+		// sample API call for mcdonalds items
+	url: "https://api.nutritionix.com/v1_1/search/mcdonalds?results=0:3&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31",
+
 	initialize: function(){
 		console.log("initializing collection");
 	},
 
-	// sample API call for mcdonalds items
-	url: "https://api.nutritionix.com/v1_1/search/mcdonalds?results=0:3&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31"
+	parse: function(response){
+
+		console.log(response.hits);
+		console.log("I'm so slow...")
+
+		return response.hits;
+	}
 
 });
 
 // sample list of food items
-// var foods = new app.FoodList([
-// 	new app.FoodItem({name: "apple", foodID: "fruit", calories: 100}),
-// 	new app.FoodItem({name: "orange", foodID: "fruit", calories: 200}),
-// 	new app.FoodItem({name: "banana", foodID: "fruit", calories: 300})
-// ]);
+app.foods = new app.FoodList([
+	new app.FoodItem({item_name: "apple", item_id: "fruit", nf_calories: 100}),
+	new app.FoodItem({item_name: "orange", item_id: "fruit", nf_calories: 200}),
+	new app.FoodItem({item_name: "banana", item_id: "fruit", nf_calories: 300})
+]);
 
-// create global collection
-app.foods = new app.FoodList();
+// create collection
+//app.foods = new app.FoodList();
 
 // get the mcdonalds items
-app.foods.fetch({
-	success: function(response){
-		console.log(response.models[0].attributes.hits[0].fields);
-	}
-});
+app.foods.fetch();
 
 
 // Dom element for individual food items
@@ -62,7 +70,7 @@ app.FoodItemView = Backbone.View.extend({
 	listTemplate: _.template($("#list-template").html()),
 
 	initialize: function(){
-
+		console.log("Rendered Item");
 	},
 
 	render: function(){
@@ -81,14 +89,14 @@ app.FoodListView = Backbone.View.extend({
 	tagName: "ul",
 
 	initialize: function(){
-
+		console.log("Food ListView Initalized");
 	},
 
 	render: function(){
 		var self = this;
-
+		console.log("I'm about to render things");
 		self.model.each(function(food){
-
+			console.log("Rendering Through Collection");
 			var foodlists = new app.FoodItemView({model: food});
 
 			self.$el.append(foodlists.render().$el);
@@ -115,10 +123,10 @@ app.SearchView = Backbone.View.extend({
 	}
 })
 
-var searchBar = new app.SearchView();
+app.searchBar = new app.SearchView();
 app.AppView = new app.FoodListView({model: app.foods});
 
 app.AppView.render();
-searchBar.render();
+app.searchBar.render();
 
 
