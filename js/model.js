@@ -68,7 +68,10 @@ app.foods = new app.FoodList([
 //app.foods = new app.FoodList();
 
 // get the mcdonalds items
-app.foods.fetch();
+app.foods.fetch().then(function(){
+	var AppView = new app.FoodListView({collection: app.foods});
+	AppView.render();
+});
 
 
 // Dom element for individual food items
@@ -106,7 +109,7 @@ app.FoodListView = Backbone.View.extend({
 	tagName: "ul",
 
 	initialize: function(){
-
+		this.collection.on('reset', this.render, this);
 		console.log("Food ListView Initalized");
 
 	},
@@ -169,13 +172,15 @@ app.SearchView = Backbone.View.extend({
 
 app.searchBar = new app.SearchView();
 
+//commented these out in favor for the .then call after app.foods.fetch()
+
 // probably the better way to do it vs the method below
-app.AppView = new app.FoodListView({collection: app.foods});
+//app.AppView = new app.FoodListView({collection: app.foods});
 
 // appView with models
 // app.AppView = new app.FoodListView({model: app.foods});
 
-app.AppView.render();
+//app.AppView.render();
 app.searchBar.render();
 
 
