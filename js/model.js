@@ -23,12 +23,16 @@ app.FoodItem = Backbone.Model.extend({
 });
 
 // Declare food collection variable
-var FoodList = Backbone.Collection.extend({
+app.FoodList = Backbone.Collection.extend({
 
 	model: app.FoodItem,
 
+	initialize: function(){
+		console.log("initializing collection");
+	},
+
 	// sample API call for mcdonalds items
-	url: "https://api.nutritionix.com/v1_1/search/mcdonalds?results=0:20&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31"
+	url: "https://api.nutritionix.com/v1_1/search/mcdonalds?results=0:3&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31"
 
 });
 
@@ -40,10 +44,14 @@ var FoodList = Backbone.Collection.extend({
 // ]);
 
 // create global collection
-app.foods = new FoodList();
+app.foods = new app.FoodList();
 
 // get the mcdonalds items
-app.foods.fetch();
+app.foods.fetch({
+	success: function(response){
+		console.log(response.models[0].attributes.hits[0].fields);
+	}
+});
 
 
 // Dom element for individual food items
