@@ -1,3 +1,4 @@
+//  define app for namespacing
 var app = app || {};
 
 // template fetching helper function in global namespace
@@ -46,7 +47,7 @@ app.FoodList = Backbone.Collection.extend({
 	parse: function(response){
 
 		console.log(response.hits);
-		console.log("I'm so slow...")
+		console.log("I'm async, so I'm slow..")
 
 		return response.hits;
 	}
@@ -55,6 +56,9 @@ app.FoodList = Backbone.Collection.extend({
 
 // sample list of food items
 app.foods = new app.FoodList([
+	// {item_name: "apple", item_id: "fruit", nf_calories: 100},
+	// {item_name: "banana", item_id: "fruit", nf_calories: 200},
+	// {item_name: "orange", item_id: "fruit", nf_calories: 300}
 	new app.FoodItem({item_name: "apple", item_id: "fruit", nf_calories: 100}),
 	new app.FoodItem({item_name: "orange", item_id: "fruit", nf_calories: 200}),
 	new app.FoodItem({item_name: "banana", item_id: "fruit", nf_calories: 300})
@@ -78,6 +82,14 @@ app.FoodItemView = Backbone.View.extend({
 		console.log("Rendered Item");
 	},
 
+	events: {
+		"click" : "showAlert"
+	},
+
+	showAlert: function(){
+		alert("you clicked something!");
+	},
+
 	render: function(){
 		this.$el.html(this.listTemplate(this.model.toJSON()));
 
@@ -94,7 +106,9 @@ app.FoodListView = Backbone.View.extend({
 	tagName: "ul",
 
 	initialize: function(){
+
 		console.log("Food ListView Initalized");
+
 	},
 
 	render: function(){
@@ -102,8 +116,8 @@ app.FoodListView = Backbone.View.extend({
 		console.log("I'm about to render things");
 
 		// use collection
-		self.collection.each(function(model){
-			var renderedFood = new app.FoodItemView({model: model})
+		self.collection.each(function(food){
+			var renderedFood = new app.FoodItemView({model: food})
 
 			self.$el.append(renderedFood.render().$el);
 
@@ -119,6 +133,19 @@ app.FoodListView = Backbone.View.extend({
 		// 	self.$el.append(foodlists.render().$el);
 		// });
 	}
+
+});
+
+// show food details, such as calories and food type, allow user to select how many servings they've had
+app.FoodDetailsView = Backbone.View.extend({
+
+	el: "#fooddetails",
+
+
+});
+
+// view that shows total calories, servings and foods consumed
+app.ConsumedFood = Backbone.View.extend({
 
 });
 
@@ -138,7 +165,7 @@ app.SearchView = Backbone.View.extend({
 
 		return this;
 	}
-})
+});
 
 app.searchBar = new app.SearchView();
 

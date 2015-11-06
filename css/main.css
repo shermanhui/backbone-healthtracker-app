@@ -3,12 +3,18 @@
 	text-align: center;
 }
 
+#selectedfood {
+	display: inline-block;
+}
+
 #searchbar {
-	text-align: center;
 	width: 100%;
+	text-align: center;
 }
 
 #foodlist {
+	display: inline-block;
+	height: 80vw;
 	width: 50vw;
 	text-align: center;
 }
@@ -17,10 +23,10 @@
 	padding: 0px;
 }
 
-/*#foods button {
+#foods button {
 	width: 100%;
 	text-align: left;
-}*/
+}
 
 #foods li {
 	list-style: none;
