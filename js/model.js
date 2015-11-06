@@ -17,11 +17,11 @@ app.FoodItem = Backbone.Model.extend({
 
 	defaults: {
 
-		name: '',
+		item_name: '',
 
-		foodID: '',
+		item_id: '',
 
-		calories: 0
+		nf_calories: 0
 
 	},
 
