@@ -1,5 +1,10 @@
 var app = app || {};
 
+// template fetching helper function in global namespace
+var template = function(id){
+	return _.template($("#" + id).html());
+};
+
 // Food Model
 app.FoodItem = Backbone.Model.extend({
 
@@ -67,7 +72,7 @@ app.FoodItemView = Backbone.View.extend({
 
 	tagName: 'li',
 
-	listTemplate: _.template($("#list-template").html()),
+	listTemplate: template("list-template"),
 
 	initialize: function(){
 		console.log("Rendered Item");
@@ -101,7 +106,9 @@ app.FoodListView = Backbone.View.extend({
 			var renderedFood = new app.FoodItemView({model: model})
 
 			self.$el.append(renderedFood.render().$el);
-			console.log(renderedFood.el);
+
+			// really cool console.log, shows you what's rendered!
+			// console.log(renderedFood.el);
 		})
 
 		// use models
@@ -120,7 +127,7 @@ app.SearchView = Backbone.View.extend({
 
 	el: "#search",
 
-	searchTemplate: _.template($("#search-template").html()),
+	searchTemplate: template("search-template"),
 
 	initialize: function(){
 
