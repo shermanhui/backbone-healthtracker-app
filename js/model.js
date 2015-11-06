@@ -95,12 +95,22 @@ app.FoodListView = Backbone.View.extend({
 	render: function(){
 		var self = this;
 		console.log("I'm about to render things");
-		self.model.each(function(food){
-			console.log("Rendering Through Collection");
-			var foodlists = new app.FoodItemView({model: food});
 
-			self.$el.append(foodlists.render().$el);
-		});
+		// use collection
+		self.collection.each(function(model){
+			var renderedFood = new app.FoodItemView({model: model})
+
+			self.$el.append(renderedFood.render().$el);
+			console.log(renderedFood.el);
+		})
+
+		// use models
+		// self.model.each(function(food){
+		// 	console.log("Rendering Through Collection");
+		// 	var foodlists = new app.FoodItemView({model: food});
+
+		// 	self.$el.append(foodlists.render().$el);
+		// });
 	}
 
 });
@@ -124,7 +134,12 @@ app.SearchView = Backbone.View.extend({
 })
 
 app.searchBar = new app.SearchView();
-app.AppView = new app.FoodListView({model: app.foods});
+
+// probably the better way to do it vs the method below
+app.AppView = new app.FoodListView({collection: app.foods});
+
+// appView with models
+// app.AppView = new app.FoodListView({model: app.foods});
 
 app.AppView.render();
 app.searchBar.render();
