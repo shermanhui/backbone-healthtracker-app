@@ -9,8 +9,8 @@ var template = function(id){
 // Food Model
 app.FoodItem = Backbone.Model.extend({
 
-	initialize: function(){
-
+	initialize: function(attrs){
+		console.log(attrs);
 		console.log("I'm a model :)");
 
 	},
@@ -38,7 +38,7 @@ app.FoodList = Backbone.Collection.extend({
 	model: app.FoodItem,
 
 	// sample API call for mcdonalds items
-	url: "https://api.nutritionix.com/v1_1/search/mcdonalds?results=0:3&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31",
+	url: "https://api.nutritionix.com/v1_1/search/mcdonalds?results=0:10&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31",
 
 	initialize: function(){
 		console.log("initializing collection");
@@ -94,8 +94,9 @@ app.FoodItemView = Backbone.View.extend({
 	},
 
 	render: function(){
-		console.log(this.model.toJSON()); // relevant data is in attributes.fields..
-		console.log(this.model.attributes.fields); //gets relevant data
+		//console.log(this.model.toJSON()); // relevant data is in attributes.fields..
+		//console.log(this.model.attributes.fields); //gets relevant data
+
 		this.$el.html(this.listTemplate(this.model.attributes.fields));
 
 		return this;
@@ -122,6 +123,7 @@ app.FoodListView = Backbone.View.extend({
 
 		// use collection
 		self.collection.each(function(food){
+			console.log(food);
 			var renderedFood = new app.FoodItemView({model: food})
 
 			self.$el.append(renderedFood.render().$el);
