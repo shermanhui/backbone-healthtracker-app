@@ -90,11 +90,12 @@ app.FoodItemView = Backbone.View.extend({
 	},
 
 	showAlert: function(){
-		console.log(this.model);
+		console.log("clicked");
 	},
 
 	render: function(){
-		console.log(this.model.attributes.fields);
+		console.log(this.model.toJSON()); // relevant data is in attributes.fields..
+		console.log(this.model.attributes.fields); //gets relevant data
 		this.$el.html(this.listTemplate(this.model.attributes.fields));
 
 		return this;
