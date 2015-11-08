@@ -19,15 +19,15 @@ app.FoodItem = Backbone.Model.extend({
 
 		item_name: '',
 
-		item_id: '',
+		item_id: 0,
 
 		nf_calories: 0
 
 	},
 
 	validate: function(attrs){
-		if (!attrs.name){
-			return "Name is required.";
+		if (!attrs){
+			return "Data missing!";
 		}
 	}
 });
@@ -37,7 +37,7 @@ app.FoodList = Backbone.Collection.extend({
 
 	model: app.FoodItem,
 
-		// sample API call for mcdonalds items
+	// sample API call for mcdonalds items
 	url: "https://api.nutritionix.com/v1_1/search/mcdonalds?results=0:3&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31",
 
 	initialize: function(){
@@ -55,22 +55,22 @@ app.FoodList = Backbone.Collection.extend({
 });
 
 // sample list of food items
-app.foods = new app.FoodList([
-	// {item_name: "apple", item_id: "fruit", nf_calories: 100},
-	// {item_name: "banana", item_id: "fruit", nf_calories: 200},
-	// {item_name: "orange", item_id: "fruit", nf_calories: 300}
-	new app.FoodItem({item_name: "apple", item_id: "fruit", nf_calories: 100}),
-	new app.FoodItem({item_name: "orange", item_id: "fruit", nf_calories: 200}),
-	new app.FoodItem({item_name: "banana", item_id: "fruit", nf_calories: 300})
-]);
+// app.foods = new app.FoodList([
+// 	// {item_name: "apple", item_id: "fruit", nf_calories: 100},
+// 	// {item_name: "banana", item_id: "fruit", nf_calories: 200},
+// 	// {item_name: "orange", item_id: "fruit", nf_calories: 300}
+// 	new app.FoodItem({item_name: "apple", item_id: "fruit", nf_calories: 100}),
+// 	new app.FoodItem({item_name: "orange", item_id: "fruit", nf_calories: 200}),
+// 	new app.FoodItem({item_name: "banana", item_id: "fruit", nf_calories: 300})
+// ]);
 
 // create collection
-//app.foods = new app.FoodList();
+app.foods = new app.FoodList();
 
 // get the mcdonalds items
 app.foods.fetch().then(function(){
-	var AppView = new app.FoodListView({collection: app.foods});
-	AppView.render();
+	this.AppView = new app.FoodListView({collection: app.foods});
+	this.AppView.render();
 });
 
 
@@ -90,11 +90,12 @@ app.FoodItemView = Backbone.View.extend({
 	},
 
 	showAlert: function(){
-		alert("you clicked something!");
+		console.log(this.model);
 	},
 
 	render: function(){
-		this.$el.html(this.listTemplate(this.model.toJSON()));
+		console.log(this.model.attributes.fields);
+		this.$el.html(this.listTemplate(this.model.attributes.fields));
 
 		return this;
 	}
