@@ -63,8 +63,8 @@ app.foods = new app.FoodList();
 
 // get the mcdonalds items and render them
 app.foods.fetch().then(function(){
-	this.AppView = new app.FoodListView({collection: app.foods});
-	this.AppView.render();
+	this.FoodListView = new app.FoodListView({collection: app.foods});
+	this.FoodListView.render();
 });
 
 
@@ -170,36 +170,28 @@ app.ConsumedFood = Backbone.View.extend({
 
 });
 
-// individual search bar view
-// app.SearchView = Backbone.View.extend({
+// general App view, this is helpful b/c events only look at decendants of "el"
+app.AppView = Backbone.View.extend({
 
-// 	el: "#search",
+	el: ".healthapp",
 
-// 	searchTemplate: template("search-template"),
+	initialize: function(){
+		this.$input = this.$("#search-bar");
+	},
 
-// 	initialize: function(){
-// 		this.$input = this.$("#searchbar");
-// 	},
+	events: {
+		"keypress #search-bar": "searchOnEnter"
+	},
 
-// 	events: {
-// 		"keypress #searchbar": "searchOnEnter"
-// 	},
+	searchOnEnter: function(e){
+		if (e.which === ENTER_KEY && this.$input.val().trim()){
+			console.log(this.$input.val());
+		}
+	}
+});
 
-// 	searchOnEnter: function(e){
-// 		if (e.which === ENTER_KEY && this.$input.val().trim()){
-// 			console.log(this.$input.val());
-// 			console.log("SUP");
-// 		}
-// 	},
+app.AppView = new app.AppView();
 
-// 	render: function(){
-// 		this.$el.html(this.searchTemplate());
-
-// 		return this;
-// 	}
-// });
-
-//app.searchBar = new app.SearchView();
 
 //commented these out in favor for the .then call after app.foods.fetch()
 
@@ -208,5 +200,3 @@ app.ConsumedFood = Backbone.View.extend({
 
 //app.AppView.render();
 //app.searchBar.render();
-
-
