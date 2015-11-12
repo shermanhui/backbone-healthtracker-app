@@ -10,18 +10,18 @@ var template = function(id){
 app.FoodItem = Backbone.Model.extend({
 
 	initialize: function(attrs){
-		console.log(attrs);
-		console.log("I'm a model :)");
+		console.log(attrs); // logs same thing as response.hits in line 47, but shows up later
+		// console.log("I'm a model :)");
 
 	},
 
 	defaults: {
 
-		item_name: '',
+		// item_name: '',
 
-		item_id: 0,
+		// item_id: 0,
 
-		nf_calories: 0
+		// nf_calories: 0
 
 	},
 
@@ -29,6 +29,11 @@ app.FoodItem = Backbone.Model.extend({
 		if (!attrs){
 			return "Data missing!";
 		}
+	},
+
+	parse: function(response){
+		//console.log(response.fields);
+		return response.fields; // parse one more time so .toJSON() works when making the food list
 	}
 });
 
@@ -37,37 +42,28 @@ app.FoodList = Backbone.Collection.extend({
 
 	model: app.FoodItem,
 
-	// sample API call for mcdonalds items
-	url: "https://api.nutritionix.com/v1_1/search/mcdonalds?results=0:10&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31",
+	// sample API call for mcdonalds items, where the term mcdonalds is, is where I would allow the user to enter their query
+	url: "https://api.nutritionix.com/v1_1/search/mcdonalds?results=0:3&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31",
 
 	initialize: function(){
 		console.log("initializing collection");
 	},
 
 	parse: function(response){
+		console.log(response, "collection")
+		// console.log(response.hits, "i'm async, i come last");
 
-		console.log(response.hits);
-		console.log("I'm async, so I'm slow..")
-
+		// returns JSON that's relevant
 		return response.hits;
 	}
 
 });
 
-// sample list of food items
-// app.foods = new app.FoodList([
-// 	// {item_name: "apple", item_id: "fruit", nf_calories: 100},
-// 	// {item_name: "banana", item_id: "fruit", nf_calories: 200},
-// 	// {item_name: "orange", item_id: "fruit", nf_calories: 300}
-// 	new app.FoodItem({item_name: "apple", item_id: "fruit", nf_calories: 100}),
-// 	new app.FoodItem({item_name: "orange", item_id: "fruit", nf_calories: 200}),
-// 	new app.FoodItem({item_name: "banana", item_id: "fruit", nf_calories: 300})
-// ]);
 
 // create collection
 app.foods = new app.FoodList();
 
-// get the mcdonalds items
+// get the mcdonalds items and render them
 app.foods.fetch().then(function(){
 	this.AppView = new app.FoodListView({collection: app.foods});
 	this.AppView.render();
@@ -86,18 +82,21 @@ app.FoodItemView = Backbone.View.extend({
 	},
 
 	events: {
-		"click" : "showAlert"
+		"click" : "showDetailsOnFood"
 	},
 
-	showAlert: function(){
-		console.log("clicked");
+	showDetailsOnFood: function(){
+		console.log("look at all this detail!");
 	},
 
 	render: function(){
-		//console.log(this.model.toJSON()); // relevant data is in attributes.fields..
-		//console.log(this.model.attributes.fields); //gets relevant data
+		console.log(this.model);
+		// console.log(this.model.toJSON()); // relevant data is in attributes.fields..
+		// console.log(this.model.attributes.fields); //gets relevant data
 
-		this.$el.html(this.listTemplate(this.model.attributes.fields));
+		// http://stackoverflow.com/questions/15545697/backbone-js-accessing-model-attributes-within-model-this-attribute-vs-this-get
+		// should try to avoid using attributes..but don't know how to make it work
+		this.$el.html(this.listTemplate(this.model.toJSON()));
 
 		return this;
 	}
@@ -113,13 +112,13 @@ app.FoodListView = Backbone.View.extend({
 
 	initialize: function(){
 		this.collection.on('reset', this.render, this);
-		console.log("Food ListView Initalized");
+		//console.log("Food ListView Initalized");
 
 	},
 
 	render: function(){
 		var self = this;
-		console.log("I'm about to render things");
+		//console.log("I'm about to render things");
 
 		// use collection
 		self.collection.each(function(food){
@@ -131,14 +130,6 @@ app.FoodListView = Backbone.View.extend({
 			// really cool console.log, shows you what's rendered!
 			// console.log(renderedFood.el);
 		})
-
-		// use models
-		// self.model.each(function(food){
-		// 	console.log("Rendering Through Collection");
-		// 	var foodlists = new app.FoodItemView({model: food});
-
-		// 	self.$el.append(foodlists.render().$el);
-		// });
 	}
 
 });
@@ -180,9 +171,6 @@ app.searchBar = new app.SearchView();
 
 // probably the better way to do it vs the method below
 //app.AppView = new app.FoodListView({collection: app.foods});
-
-// appView with models
-// app.AppView = new app.FoodListView({model: app.foods});
 
 //app.AppView.render();
 app.searchBar.render();

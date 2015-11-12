@@ -24,6 +24,8 @@
 }
 
 #foods button {
+	appearance: none;
+	border: none;
 	width: 100%;
 	text-align: left;
 }
