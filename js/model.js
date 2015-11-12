@@ -58,16 +58,6 @@ app.FoodList = Backbone.Collection.extend({
 });
 
 
-// create collection
-app.foods = new app.FoodList();
-
-// get the mcdonalds items and render them
-app.foods.fetch().then(function(){
-	this.FoodListView = new app.FoodListView({collection: app.foods});
-	this.FoodListView.render();
-});
-
-
 // Dom element for individual food items
 app.FoodItemView = Backbone.View.extend({
 
@@ -87,9 +77,8 @@ app.FoodItemView = Backbone.View.extend({
 
 	showDetailsOnFood: function(){
 
-		// appends details template to fooddetails section
-		$("#fooddetails").append(this.detailedTemplate(this.model.toJSON()));
-		//console.log(this.model.get("item_name") + " " + this.model.get("nf_calories") + " cal");
+		$("#fooddetails").append(this.detailedTemplate(this.model.toJSON())); 		// appends details template to fooddetails section
+
 	},
 
 	render: function(){
@@ -110,23 +99,8 @@ app.FoodListView = Backbone.View.extend({
 
 	initialize: function(){
 
-		this.$input = this.$("#searchbar");
-
 		this.collection.on('reset', this.render, this);
 
-	},
-
-	events: {
-		"keypress #searchbar": "searchOnEnter"
-	},
-
-	searchOnEnter: function(e){
-		if (e.which === ENTER_KEY && this.$input.val().trim()){
-			console.log(this.$input.val());
-			console.log("SUP");
-		} else {
-			console.log("why")
-		}
 	},
 
 	render: function(){
@@ -176,19 +150,39 @@ app.AppView = Backbone.View.extend({
 	el: ".healthapp",
 
 	initialize: function(){
+
 		this.$input = this.$("#search-bar");
 	},
 
 	events: {
+
 		"keypress #search-bar": "searchOnEnter"
+
 	},
 
 	searchOnEnter: function(e){
+
 		if (e.which === ENTER_KEY && this.$input.val().trim()){
-			console.log(this.$input.val());
+
+			app.foods.fetch({
+				success: { // success callback to render render a new view...update collection
+				}
+			})
+
+			this.$input.val(''); //clears input after Enter
 		}
 	}
 });
+
+// create collection
+app.foods = new app.FoodList();
+
+// get the mcdonalds items and render them
+app.foods.fetch().then(function(){
+	this.FoodListView = new app.FoodListView({collection: app.foods});
+	this.FoodListView.render();
+});
+
 
 app.AppView = new app.AppView();
 
