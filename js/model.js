@@ -6,6 +6,8 @@ var template = function(id){
 	return _.template($("#" + id).html());
 };
 
+var ENTER_KEY = 13;
+
 // Food Model
 app.FoodItem = Backbone.Model.extend({
 
@@ -85,8 +87,9 @@ app.FoodItemView = Backbone.View.extend({
 
 	showDetailsOnFood: function(){
 
+		// appends details template to fooddetails section
 		$("#fooddetails").append(this.detailedTemplate(this.model.toJSON()));
-		console.log(this.model.get("item_name") + " " + this.model.get("nf_calories") + " cal");
+		//console.log(this.model.get("item_name") + " " + this.model.get("nf_calories") + " cal");
 	},
 
 	render: function(){
@@ -107,8 +110,23 @@ app.FoodListView = Backbone.View.extend({
 
 	initialize: function(){
 
+		this.$input = this.$("#searchbar");
+
 		this.collection.on('reset', this.render, this);
 
+	},
+
+	events: {
+		"keypress #searchbar": "searchOnEnter"
+	},
+
+	searchOnEnter: function(e){
+		if (e.which === ENTER_KEY && this.$input.val().trim()){
+			console.log(this.$input.val());
+			console.log("SUP");
+		} else {
+			console.log("why")
+		}
 	},
 
 	render: function(){
@@ -153,24 +171,35 @@ app.ConsumedFood = Backbone.View.extend({
 });
 
 // individual search bar view
-app.SearchView = Backbone.View.extend({
+// app.SearchView = Backbone.View.extend({
 
-	el: "#search",
+// 	el: "#search",
 
-	searchTemplate: template("search-template"),
+// 	searchTemplate: template("search-template"),
 
-	initialize: function(){
+// 	initialize: function(){
+// 		this.$input = this.$("#searchbar");
+// 	},
 
-	},
+// 	events: {
+// 		"keypress #searchbar": "searchOnEnter"
+// 	},
 
-	render: function(){
-		this.$el.html(this.searchTemplate());
+// 	searchOnEnter: function(e){
+// 		if (e.which === ENTER_KEY && this.$input.val().trim()){
+// 			console.log(this.$input.val());
+// 			console.log("SUP");
+// 		}
+// 	},
 
-		return this;
-	}
-});
+// 	render: function(){
+// 		this.$el.html(this.searchTemplate());
 
-app.searchBar = new app.SearchView();
+// 		return this;
+// 	}
+// });
+
+//app.searchBar = new app.SearchView();
 
 //commented these out in favor for the .then call after app.foods.fetch()
 
@@ -178,6 +207,6 @@ app.searchBar = new app.SearchView();
 //app.AppView = new app.FoodListView({collection: app.foods});
 
 //app.AppView.render();
-app.searchBar.render();
+//app.searchBar.render();
 
 

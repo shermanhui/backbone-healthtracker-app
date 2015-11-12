@@ -21,7 +21,7 @@
             </header>
 
             <section id="search">
-
+                <input id="searchbar" autofocus placeholder="What Did You Eat?">
             </section>
 
             <section id="foodlist">
@@ -46,9 +46,6 @@
 
 
         </section>
-        <script type="text/template" id="search-template">
-            <input type="text" placeholder="What Did You Eat?" autofocus id="searchbar">
-        </script>
         <script type="text/template" id="list-template">
             <%= $("#foods>li").length === 0 ?  '' : '' %> <!-- needs work, should show text "list of foods returned from query" -->
             <button><%- item_name %></button>
