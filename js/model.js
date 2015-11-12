@@ -41,7 +41,7 @@ app.FoodList = Backbone.Collection.extend({
 	model: app.FoodItem,
 
 	// sample API call for mcdonalds items, where the term mcdonalds is, is where I would allow the user to enter their query
-	url: "https://api.nutritionix.com/v1_1/search/mcdonalds?results=0:3&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31",
+	url: "https://api.nutritionix.com/v1_1/search/mcdonalds?results=0:10&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31",
 
 	initialize: function(){
 		console.log("initializing collection");
@@ -73,6 +73,8 @@ app.FoodItemView = Backbone.View.extend({
 
 	listTemplate: template("list-template"),
 
+	detailedTemplate: template("detailed-template"),
+
 	initialize: function(){
 
 	},
@@ -82,6 +84,8 @@ app.FoodItemView = Backbone.View.extend({
 	},
 
 	showDetailsOnFood: function(){
+
+		$("#fooddetails").append(this.detailedTemplate(this.model.toJSON()));
 		console.log(this.model.get("item_name") + " " + this.model.get("nf_calories") + " cal");
 	},
 
@@ -128,6 +132,17 @@ app.FoodListView = Backbone.View.extend({
 app.FoodDetailsView = Backbone.View.extend({
 
 	el: "#fooddetails",
+
+	initialize: function(){
+
+	},
+
+
+	render: function(){
+		var self = this;
+
+		self.$el.append()
+	}
 
 
 });
