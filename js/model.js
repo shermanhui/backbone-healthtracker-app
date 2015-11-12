@@ -10,18 +10,16 @@ var template = function(id){
 app.FoodItem = Backbone.Model.extend({
 
 	initialize: function(attrs){
-		console.log(attrs); // logs same thing as response.hits in line 47, but shows up later
-		// console.log("I'm a model :)");
 
 	},
 
 	defaults: {
 
-		// item_name: '',
+		item_name: '',
 
-		// item_id: 0,
+		item_id: 0,
 
-		// nf_calories: 0
+		nf_calories: 0
 
 	},
 
@@ -32,7 +30,7 @@ app.FoodItem = Backbone.Model.extend({
 	},
 
 	parse: function(response){
-		//console.log(response.fields);
+
 		return response.fields; // parse one more time so .toJSON() works when making the food list
 	}
 });
@@ -50,8 +48,6 @@ app.FoodList = Backbone.Collection.extend({
 	},
 
 	parse: function(response){
-		console.log(response, "collection")
-		// console.log(response.hits, "i'm async, i come last");
 
 		// returns JSON that's relevant
 		return response.hits;
@@ -78,7 +74,7 @@ app.FoodItemView = Backbone.View.extend({
 	listTemplate: template("list-template"),
 
 	initialize: function(){
-		console.log("Rendered Item");
+
 	},
 
 	events: {
@@ -86,16 +82,11 @@ app.FoodItemView = Backbone.View.extend({
 	},
 
 	showDetailsOnFood: function(){
-		console.log("look at all this detail!");
+		console.log(this.model.get("item_name") + " " + this.model.get("nf_calories") + " cal");
 	},
 
 	render: function(){
-		console.log(this.model);
-		// console.log(this.model.toJSON()); // relevant data is in attributes.fields..
-		// console.log(this.model.attributes.fields); //gets relevant data
 
-		// http://stackoverflow.com/questions/15545697/backbone-js-accessing-model-attributes-within-model-this-attribute-vs-this-get
-		// should try to avoid using attributes..but don't know how to make it work
 		this.$el.html(this.listTemplate(this.model.toJSON()));
 
 		return this;
@@ -111,18 +102,17 @@ app.FoodListView = Backbone.View.extend({
 	tagName: "ul",
 
 	initialize: function(){
+
 		this.collection.on('reset', this.render, this);
-		//console.log("Food ListView Initalized");
 
 	},
 
 	render: function(){
 		var self = this;
-		//console.log("I'm about to render things");
 
 		// use collection
 		self.collection.each(function(food){
-			console.log(food);
+
 			var renderedFood = new app.FoodItemView({model: food})
 
 			self.$el.append(renderedFood.render().$el);
