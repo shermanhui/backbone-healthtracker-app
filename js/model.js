@@ -150,6 +150,7 @@ app.AppView = Backbone.View.extend({
 	el: ".healthapp",
 
 	initialize: function(){
+		app.foods = new app.FoodList();
 
 		this.$input = this.$("#search-bar");
 	},
@@ -163,25 +164,30 @@ app.AppView = Backbone.View.extend({
 	searchOnEnter: function(e){
 
 		if (e.which === ENTER_KEY && this.$input.val().trim()){
+			this.$inputURL = this.$input.val().replace(/ /g, "%20");
 
-			app.foods.fetch({
-				success: { // success callback to render render a new view...update collection
-				}
-			})
+			this.userSearch = "https://api.nutritionix.com/v1_1/search/"+ this.$inputURL +"?results=0:10&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31";
+
+			app.foods.url = this.userSearch; // should i use this or var?
+
+			app.foods.fetch().then(function(){
+				app.FoodListView = new app.FoodListView({collection: app.foods});
+				app.FoodListView.render();
+			});
 
 			this.$input.val(''); //clears input after Enter
 		}
 	}
 });
 
-// create collection
-app.foods = new app.FoodList();
+// // create collection
+// app.foods = new app.FoodList();
 
-// get the mcdonalds items and render them
-app.foods.fetch().then(function(){
-	this.FoodListView = new app.FoodListView({collection: app.foods});
-	this.FoodListView.render();
-});
+// // get the mcdonalds items and render them
+// app.foods.fetch().then(function(){
+// 	this.FoodListView = new app.FoodListView({collection: app.foods});
+// 	this.FoodListView.render();
+// });
 
 
 app.AppView = new app.AppView();
