@@ -65,9 +65,11 @@ app.FoodItemView = Backbone.View.extend({
 
 	listTemplate: template("list-template"),
 
-	detailedTemplate: template("detailed-template"),
+	// detailedTemplate: template("detailed-template"),
 
-	initialize: function(){
+	initialize: function(food){
+
+		app.foodDetails = new app.FoodDetailsView({model: food});
 
 	},
 
@@ -77,7 +79,9 @@ app.FoodItemView = Backbone.View.extend({
 
 	showDetailsOnFood: function(){
 
-		$("#fooddetails").append(this.detailedTemplate(this.model.toJSON())); 		// appends details template to fooddetails section
+		app.foodDetails.render();
+
+		// $("#fooddetails").append(this.detailedTemplate(this.model.toJSON())); 		// appends details template to fooddetails section
 
 	},
 
@@ -122,30 +126,35 @@ app.FoodListView = Backbone.View.extend({
 });
 
 // show food details, such as calories and food type, allow user to select how many servings they've had
-// app.FoodDetailsView = Backbone.View.extend({
+app.FoodDetailsView = Backbone.View.extend({
 
-// 	el: "#fooddetails",
+	el: "#fooddetails",
 
-// 	initialize: function(){
+	tagName: "div",
 
-// 	},
+	detailedTemplate: template("detailed-template"),
 
+	initialize: function(){
 
-// 	render: function(){
-// 		var self = this;
-
-// 		self.$el.append()
-// 	}
+	},
 
 
-// });
+	render: function(){
+		var self = this;
+
+		self.$el.append(this.detailedTemplate(this.model.toJSON()));
+	}
+
+
+});
+
 
 // view that shows total calories, servings and foods consumed
 app.ConsumedFood = Backbone.View.extend({
 
 });
 
-// general App view, this is helpful b/c events only look at decendants of "el"
+// overall App view, this is helpful b/c events only look at decendants of "el"
 app.AppView = Backbone.View.extend({
 
 	el: ".healthapp",
@@ -154,8 +163,6 @@ app.AppView = Backbone.View.extend({
 		app.foods = new app.FoodList(); // initialize collection of food
 
 		app.foodList = new app.FoodListView({collection: app.foods});
-
-		console.log(app.foods, "on initialization")
 
 		this.$input = this.$("#search-bar"); // assign variable to jQuery selector for the search bar
 
@@ -170,6 +177,7 @@ app.AppView = Backbone.View.extend({
 	searchOnEnter: function(e){
 
 		if (e.which === ENTER_KEY && this.$input.val().trim()){ // if enter key and there is a value in the search bar
+
 			this.$inputURL = this.$input.val().replace(/ /g, "%20"); // replace spaces with %20 for the url
 
 			this.userSearch = "https://api.nutritionix.com/v1_1/search/"+ this.$inputURL +"?results=0:10&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31";
