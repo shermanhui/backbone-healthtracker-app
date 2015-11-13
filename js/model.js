@@ -106,6 +106,7 @@ app.FoodListView = Backbone.View.extend({
 	render: function(){
 		var self = this;
 
+		this.$el.empty(); // empty collection on new render
 		// use collection
 		self.collection.each(function(food){
 
@@ -169,8 +170,6 @@ app.AppView = Backbone.View.extend({
 	searchOnEnter: function(e){
 
 		if (e.which === ENTER_KEY && this.$input.val().trim()){ // if enter key and there is a value in the search bar
-
-
 			this.$inputURL = this.$input.val().replace(/ /g, "%20"); // replace spaces with %20 for the url
 
 			this.userSearch = "https://api.nutritionix.com/v1_1/search/"+ this.$inputURL +"?results=0:10&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31";
@@ -178,12 +177,8 @@ app.AppView = Backbone.View.extend({
 			app.foods.url = this.userSearch; // use 'this' or var? updates food collection's URL to user search input
 
 			app.foods.fetch().then(function(){ // fetch new list
-				console.log(app.foods);
 
 				app.foodList.render();
-				//app.foods.reset();
-
-				// console.log(app.foods);
 
 			});
 
@@ -196,24 +191,4 @@ app.AppView = Backbone.View.extend({
 	}
 });
 
-
-// // create collection
-// app.foods = new app.FoodList();
-
-// // get the mcdonalds items and render them
-// app.foods.fetch().then(function(){
-// 	this.FoodListView = new app.FoodListView({collection: app.foods});
-// 	this.FoodListView.render();
-// });
-
-
 app.AppView = new app.AppView();
-
-
-//commented these out in favor for the .then call after app.foods.fetch()
-
-// probably the better way to do it vs the method below
-//app.AppView = new app.FoodListView({collection: app.foods});
-
-//app.AppView.render();
-//app.searchBar.render();
