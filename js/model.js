@@ -121,23 +121,23 @@ app.FoodListView = Backbone.View.extend({
 });
 
 // show food details, such as calories and food type, allow user to select how many servings they've had
-app.FoodDetailsView = Backbone.View.extend({
+// app.FoodDetailsView = Backbone.View.extend({
 
-	el: "#fooddetails",
+// 	el: "#fooddetails",
 
-	initialize: function(){
+// 	initialize: function(){
 
-	},
-
-
-	render: function(){
-		var self = this;
-
-		self.$el.append()
-	}
+// 	},
 
 
-});
+// 	render: function(){
+// 		var self = this;
+
+// 		self.$el.append()
+// 	}
+
+
+// });
 
 // view that shows total calories, servings and foods consumed
 app.ConsumedFood = Backbone.View.extend({
@@ -150,9 +150,14 @@ app.AppView = Backbone.View.extend({
 	el: ".healthapp",
 
 	initialize: function(){
-		app.foods = new app.FoodList();
+		app.foods = new app.FoodList(); // initialize collection of food
 
-		this.$input = this.$("#search-bar");
+		app.foodList = new app.FoodListView({collection: app.foods});
+
+		console.log(app.foods, "on initialization")
+
+		this.$input = this.$("#search-bar"); // assign variable to jQuery selector for the search bar
+
 	},
 
 	events: {
@@ -163,25 +168,34 @@ app.AppView = Backbone.View.extend({
 
 	searchOnEnter: function(e){
 
-		if (e.which === ENTER_KEY && this.$input.val().trim()){
-			this.$inputURL = this.$input.val().replace(/ /g, "%20");
+		if (e.which === ENTER_KEY && this.$input.val().trim()){ // if enter key and there is a value in the search bar
+
+
+			this.$inputURL = this.$input.val().replace(/ /g, "%20"); // replace spaces with %20 for the url
 
 			this.userSearch = "https://api.nutritionix.com/v1_1/search/"+ this.$inputURL +"?results=0:10&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31";
 
-			app.foods.url = this.userSearch; // use 'this' or var?
+			app.foods.url = this.userSearch; // use 'this' or var? updates food collection's URL to user search input
 
+			app.foods.fetch().then(function(){ // fetch new list
+				console.log(app.foods);
 
+				app.foodList.render();
+				//app.foods.reset();
 
-			app.foods.fetch().then(function(){
-				var FoodListView = new app.FoodListView({collection: app.foods});
-				FoodListView.render();
+				// console.log(app.foods);
 
 			});
-			// app.foods.reset();
+
 			this.$input.val(''); //clears input after Enter
 		}
+	},
+
+	render: {
+
 	}
 });
+
 
 // // create collection
 // app.foods = new app.FoodList();
