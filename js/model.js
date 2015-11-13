@@ -184,10 +184,6 @@ app.AppView = Backbone.View.extend({
 
 			this.$input.val(''); //clears input after Enter
 		}
-	},
-
-	render: {
-
 	}
 });
 
