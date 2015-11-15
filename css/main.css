@@ -3,7 +3,7 @@
 	text-align: center;
 }
 
-#selectedfood {
+#selected-food {
 	display: inline-block;
 	height: 80vh;
 }
@@ -13,7 +13,7 @@
 	text-align: center;
 }
 
-#foodlist {
+#food-list {
 	display: inline-block;
 	height: 80vh;
 	width: 50vw;

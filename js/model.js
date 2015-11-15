@@ -21,7 +21,11 @@ app.FoodItem = Backbone.Model.extend({
 
 		item_id: 0,
 
-		nf_calories: 0
+		brand_name: '',
+
+		nf_calories: 0,
+
+		num_servings: 0,
 
 	},
 
@@ -35,6 +39,7 @@ app.FoodItem = Backbone.Model.extend({
 
 		return response.fields; // parse one more time so .toJSON() works when making the food list
 	}
+
 });
 
 // Declare food collection variable
@@ -47,7 +52,7 @@ app.FoodList = Backbone.Collection.extend({
 
 	initialize: function(){
 
-		console.log("initializing collection");
+		console.log("Collection Initialized");
 
 	},
 
@@ -59,13 +64,21 @@ app.FoodList = Backbone.Collection.extend({
 
 });
 
-//
-app.FoodDiary = Backbone.Collection.extend({ //Firebase collection to be created
+//Firebase collection to be created
+app.FoodDiary = Backbone.Firebase.Collection.extend({
 
-	model: app.SelectedFood,
+	model: app.FoodItem,
 
-	// Firebase url
+	url: "https://fiery-fire-3787.firebaseio.com/",
+
+	initialize: function(){
+
+		console.log("Firebase Collection Initialized");
+
+	}
 });
+
+app.SelectedFoodsList = new app.FoodDiary();
 
 
 // Dom element for individual food items
@@ -84,14 +97,14 @@ app.FoodItemView = Backbone.View.extend({
 	},
 
 	events: {
+
 		"click" : "onClick"
+
 	},
 
 	onClick: function(){
 
 		this.bus.trigger("showDetailsOnFood", this.model);
-
-		// $("#fooddetails").append(this.detailedTemplate(this.model.toJSON())); 		// appends details template to fooddetails section
 
 	},
 
@@ -129,6 +142,7 @@ app.FoodListView = Backbone.View.extend({
 			var renderedFood = new app.FoodItemView({model: food, bus: self.bus})
 
 			self.$el.append(renderedFood.render().$el);
+
 		});
 
 		return this;
@@ -139,7 +153,7 @@ app.FoodListView = Backbone.View.extend({
 // show food details, such as calories and food type, allow user to select how many servings they've had
 app.FoodDetailsView = Backbone.View.extend({
 
-	el: "#fooddetails",
+	el: "#food-details",
 
 	tagName: "div",
 
@@ -153,16 +167,35 @@ app.FoodDetailsView = Backbone.View.extend({
 
 	},
 
-	onShowDetailsOnFood: function(food){
+	events: {
 
-		this.model = food;
+		"click .addFood" : "addToSelectedFoods"
+
+	},
+
+	addToSelectedFoods : function(){
+
+		console.log(this.model);
+
+		app.SelectedFoodsList.add(this.model.attributes); // how can i parse this instead of manually selecting the attribtues
+
+		console.log(app.SelectedFoodsList);
+
+	},
+
+	onShowDetailsOnFood: function(food){ // triggers bus event
+
+		this.model = food; // this method only allows me to show one model at a time
 
 		this.render();
 	},
 
 	render: function(){
+
 		if (this.model){ // initially there is no model, the model is passed when the event is triggered
-			this.$el.html(this.detailedTemplate(this.model.toJSON()));
+
+			this.$el.html(this.detailedTemplate(this.model.toJSON())); // renders the details of a food selected, and refreshes the view on new food selected
+
 		}
 
 		return this;
@@ -171,14 +204,18 @@ app.FoodDetailsView = Backbone.View.extend({
 
 });
 
-app.bus = _.extend({}, Backbone.Events); // bus object instantiation
+app.bus = _.extend({}, Backbone.Events); // bus object instantiation, pass bus object to have reference to the data in each view
 
 app.FoodDetailView = new app.FoodDetailsView({bus: app.bus})
 
+// render each item in Food Diary
+app.ShowFoodDiaryItem = Backbone.View.extend({
 
+});
 // view that shows total calories, servings and foods consumed
-app.ShowFoodDiary = Backbone.View.extend({
+app.ShowFoodDiaryList = Backbone.View.extend({
 
+	el:"#foods-journal"
 });
 
 // overall App view, this is helpful b/c events only look at decendants of "el"
@@ -189,7 +226,7 @@ app.AppView = Backbone.View.extend({
 	initialize: function(){
 		app.foods = new app.FoodList(); // initialize collection of food
 
-		app.foodList = new app.FoodListView({collection: app.foods, bus: app.bus});
+		app.foodListView = new app.FoodListView({collection: app.foods, bus: app.bus});
 
 		this.$input = this.$("#search-bar"); // assign variable to jQuery selector for the search bar
 
@@ -213,7 +250,7 @@ app.AppView = Backbone.View.extend({
 
 			app.foods.fetch().then(function(){ // fetch new list
 
-				app.foodList.render();
+				app.foodListView.render();
 
 			});
 
