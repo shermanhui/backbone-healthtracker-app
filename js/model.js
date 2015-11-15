@@ -46,7 +46,9 @@ app.FoodList = Backbone.Collection.extend({
 	url: "https://api.nutritionix.com/v1_1/search/mcdonalds?results=0:10&fields=item_name,brand_name,item_id,nf_calories&appId=cd0bcc78&appKey=9aec12536b3cf72ef688e2489200ba31",
 
 	initialize: function(){
+
 		console.log("initializing collection");
+
 	},
 
 	parse: function(response){
@@ -59,6 +61,7 @@ app.FoodList = Backbone.Collection.extend({
 
 //
 app.FoodDiary = Backbone.Collection.extend({ //Firebase collection to be created
+
 	model: app.SelectedFood,
 
 	// Firebase url
@@ -77,6 +80,7 @@ app.FoodItemView = Backbone.View.extend({
 	initialize: function(options){
 
 		this.bus = options.bus
+
 	},
 
 	events: {
@@ -150,12 +154,14 @@ app.FoodDetailsView = Backbone.View.extend({
 	},
 
 	onShowDetailsOnFood: function(food){
+
 		this.model = food;
+
 		this.render();
 	},
 
 	render: function(){
-		if (this.model){
+		if (this.model){ // initially there is no model, the model is passed when the event is triggered
 			this.$el.html(this.detailedTemplate(this.model.toJSON()));
 		}
 
@@ -165,7 +171,7 @@ app.FoodDetailsView = Backbone.View.extend({
 
 });
 
-app.bus = _.extend({}, Backbone.Events);
+app.bus = _.extend({}, Backbone.Events); // bus object instantiation
 
 app.FoodDetailView = new app.FoodDetailsView({bus: app.bus})
 
