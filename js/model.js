@@ -57,6 +57,13 @@ app.FoodList = Backbone.Collection.extend({
 
 });
 
+//
+app.FoodDiary = Backbone.Collection.extend({ //Firebase collection to be created
+	model: app.SelectedFood,
+
+	// Firebase url
+});
+
 
 // Dom element for individual food items
 app.FoodItemView = Backbone.View.extend({
@@ -67,19 +74,18 @@ app.FoodItemView = Backbone.View.extend({
 
 	// detailedTemplate: template("detailed-template"),
 
-	initialize: function(food){
+	initialize: function(options){
 
-		app.foodDetails = new app.FoodDetailsView({model: food});
-
+		this.bus = options.bus
 	},
 
 	events: {
-		"click" : "showDetailsOnFood"
+		"click" : "onClick"
 	},
 
-	showDetailsOnFood: function(){
+	onClick: function(){
 
-		app.foodDetails.render();
+		this.bus.trigger("showDetailsOnFood", this.model);
 
 		// $("#fooddetails").append(this.detailedTemplate(this.model.toJSON())); 		// appends details template to fooddetails section
 
@@ -101,7 +107,9 @@ app.FoodListView = Backbone.View.extend({
 
 	tagName: "ul",
 
-	initialize: function(){
+	initialize: function(options){
+
+		this.bus = options.bus;
 
 		this.collection.on('reset', this.render, this);
 
@@ -111,16 +119,15 @@ app.FoodListView = Backbone.View.extend({
 		var self = this;
 
 		this.$el.empty(); // empty collection on new render
-		// use collection
+
 		self.collection.each(function(food){
 
-			var renderedFood = new app.FoodItemView({model: food})
+			var renderedFood = new app.FoodItemView({model: food, bus: self.bus})
 
 			self.$el.append(renderedFood.render().$el);
+		});
 
-			// really cool console.log, shows you what's rendered!
-			// console.log(renderedFood.el);
-		})
+		return this;
 	}
 
 });
@@ -134,23 +141,37 @@ app.FoodDetailsView = Backbone.View.extend({
 
 	detailedTemplate: template("detailed-template"),
 
-	initialize: function(){
+	initialize: function(options){
+
+		this.bus = options.bus;
+
+		this.bus.on("showDetailsOnFood", this.onShowDetailsOnFood, this);
 
 	},
 
+	onShowDetailsOnFood: function(food){
+		this.model = food;
+		this.render();
+	},
 
 	render: function(){
-		var self = this;
+		if (this.model){
+			this.$el.html(this.detailedTemplate(this.model.toJSON()));
+		}
 
-		self.$el.append(this.detailedTemplate(this.model.toJSON()));
+		return this;
 	}
 
 
 });
 
+app.bus = _.extend({}, Backbone.Events);
+
+app.FoodDetailView = new app.FoodDetailsView({bus: app.bus})
+
 
 // view that shows total calories, servings and foods consumed
-app.ConsumedFood = Backbone.View.extend({
+app.ShowFoodDiary = Backbone.View.extend({
 
 });
 
@@ -162,7 +183,7 @@ app.AppView = Backbone.View.extend({
 	initialize: function(){
 		app.foods = new app.FoodList(); // initialize collection of food
 
-		app.foodList = new app.FoodListView({collection: app.foods});
+		app.foodList = new app.FoodListView({collection: app.foods, bus: app.bus});
 
 		this.$input = this.$("#search-bar"); // assign variable to jQuery selector for the search bar
 
