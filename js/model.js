@@ -79,9 +79,6 @@ app.FoodJournal = Backbone.Firebase.Collection.extend({
 
 });
 
-app.selectedFoods = new app.FoodJournal();
-
-
 // Dom element for individual food items
 app.FoodItemView = Backbone.View.extend({
 
@@ -258,17 +255,20 @@ app.ShowFoodJournalList = Backbone.View.extend({
 	initialize: function(){
 		console.log("list view initialized");
 
-		this.collection.on('add', this.render, this);
+		this.listenTo(this.collection, "add", this.render);
 	},
 
 	render: function(){
 		var self = this;
+
+		this.$el.empty();
 
 		self.collection.each(function(food){
 
 			var renderedJournal = new app.ShowFoodJournalItem({model: food})
 
 			self.$el.append(renderedJournal.render().$el);
+
 
 		});
 	}
@@ -281,7 +281,10 @@ app.AppView = Backbone.View.extend({
 	el: ".healthapp",
 
 	initialize: function(){
+		console.log("AppView Initialized")
 		app.foods = new app.FoodList(); // initialize collection of food
+
+		app.selectedFoods = new app.FoodJournal(); // initialize stored collection of food
 
 		app.foodListView = new app.FoodListView({collection: app.foods, bus: app.bus});
 
