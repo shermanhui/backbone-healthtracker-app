@@ -75,6 +75,10 @@ app.FoodDiary = Backbone.Firebase.Collection.extend({
 
 		console.log("Firebase Collection Initialized");
 
+	},
+
+	parse: function(response){
+		console.log(response);
 	}
 });
 
@@ -104,6 +108,7 @@ app.FoodItemView = Backbone.View.extend({
 
 	onClick: function(){
 
+		console.log(this.model);
 		this.bus.trigger("showDetailsOnFood", this.model);
 
 	},
@@ -161,6 +166,8 @@ app.FoodDetailsView = Backbone.View.extend({
 
 	initialize: function(options){
 
+		this.$input = this.$("#quantity");
+
 		this.bus = options.bus;
 
 		this.bus.on("showDetailsOnFood", this.onShowDetailsOnFood, this);
@@ -169,7 +176,9 @@ app.FoodDetailsView = Backbone.View.extend({
 
 	events: {
 
-		"click .addFood" : "addToSelectedFoods"
+		"click .addFood" : "addToSelectedFoods",
+
+		"keypress #quantity" : "updateQuantityEaten"
 
 	},
 
@@ -180,6 +189,11 @@ app.FoodDetailsView = Backbone.View.extend({
 		app.SelectedFoodsList.add(this.model.attributes); // how can i parse this instead of manually selecting the attribtues
 
 		console.log(app.SelectedFoodsList);
+
+	},
+
+	updateQuantityEaten: function(){ //update quantity of selected food eaten, so we can calculate calories
+
 
 	},
 
@@ -215,7 +229,10 @@ app.ShowFoodDiaryItem = Backbone.View.extend({
 // view that shows total calories, servings and foods consumed
 app.ShowFoodDiaryList = Backbone.View.extend({
 
-	el:"#foods-journal"
+	el:"#foods-journal",
+
+	tagName: "ul",
+
 });
 
 // overall App view, this is helpful b/c events only look at decendants of "el"
