@@ -65,7 +65,7 @@ app.FoodList = Backbone.Collection.extend({
 });
 
 //Firebase collection to be created
-app.FoodDiary = Backbone.Firebase.Collection.extend({
+app.FoodJournal = Backbone.Firebase.Collection.extend({
 
 	model: app.FoodItem,
 
@@ -75,14 +75,11 @@ app.FoodDiary = Backbone.Firebase.Collection.extend({
 
 		console.log("Firebase Collection Initialized");
 
-	},
-
-	parse: function(response){
-		console.log(response);
 	}
+
 });
 
-app.SelectedFoodsList = new app.FoodDiary();
+app.SelectedFoodsList = new app.FoodJournal();
 
 
 // Dom element for individual food items
@@ -91,8 +88,6 @@ app.FoodItemView = Backbone.View.extend({
 	tagName: 'li',
 
 	listTemplate: template("list-template"),
-
-	// detailedTemplate: template("detailed-template"),
 
 	initialize: function(options){
 
@@ -109,6 +104,7 @@ app.FoodItemView = Backbone.View.extend({
 	onClick: function(){
 
 		console.log(this.model);
+		console.log(this.model.toJSON());
 		this.bus.trigger("showDetailsOnFood", this.model);
 
 	},
@@ -166,7 +162,7 @@ app.FoodDetailsView = Backbone.View.extend({
 
 	initialize: function(options){
 
-		this.$input = this.$("#quantity");
+		this.$quantity = this.$("#quantity");
 
 		this.bus = options.bus;
 
@@ -186,22 +182,31 @@ app.FoodDetailsView = Backbone.View.extend({
 
 		console.log(this.model);
 
-		app.SelectedFoodsList.add(this.model.attributes); // how can i parse this instead of manually selecting the attribtues
+		app.SelectedFoodsList.add(this.model.toJSON()); // how can i parse this instead of manually selecting the attribtues
 
 		console.log(app.SelectedFoodsList);
 
 	},
 
-	updateQuantityEaten: function(){ //update quantity of selected food eaten, so we can calculate calories
+	updateQuantityEaten: function(e){ //update quantity of selected food eaten, so we can calculate calories
 
+		console.log(this.$quantity.val());
+
+		// if (e.which === ENTER_KEY && this.$quantity.val().trim()){
+		// 	var servings = this.$quantity.val();
+
+		// 	console.log(servings);
+		// }
+		// this.model.attributes.set({num_servings: })
 
 	},
 
 	onShowDetailsOnFood: function(food){ // triggers bus event
 
-		this.model = food; // this method only allows me to show one model at a time
+		this.model = food;
 
-		this.render();
+		this.render(food);
+
 	},
 
 	render: function(){
@@ -223,15 +228,50 @@ app.bus = _.extend({}, Backbone.Events); // bus object instantiation, pass bus o
 app.FoodDetailView = new app.FoodDetailsView({bus: app.bus})
 
 // render each item in Food Diary
-app.ShowFoodDiaryItem = Backbone.View.extend({
+app.ShowFoodJournalItem = Backbone.View.extend({
+
+	tagName: "li",
+
+	journalTemplate: template("journal-template"),
+
+	initialize: function(){
+
+		console.log("individual render");
+
+	},
+
+	render: function(){
+
+		this.$el.html(this.journalTemplate(this.model.toJSON()));
+
+		return this;
+	}
 
 });
-// view that shows total calories, servings and foods consumed
-app.ShowFoodDiaryList = Backbone.View.extend({
+// view that shows total calories, servings and foods consumed, iterate through Journal List
+app.ShowFoodJournalList = Backbone.View.extend({
 
 	el:"#foods-journal",
 
 	tagName: "ul",
+
+	initialize: function(){
+		console.log("list view initialized");
+
+		this.collection.on('add', this.render, this);
+	},
+
+	render: function(){
+		var self = this;
+
+		self.collection.each(function(food){
+
+			var renderedJournal = new app.ShowFoodJournalItem({model: food})
+
+			self.$el.append(renderedJournal.render().$el);
+
+		});
+	}
 
 });
 
@@ -244,6 +284,8 @@ app.AppView = Backbone.View.extend({
 		app.foods = new app.FoodList(); // initialize collection of food
 
 		app.foodListView = new app.FoodListView({collection: app.foods, bus: app.bus});
+
+		app.foodJournal = new app.ShowFoodJournalList({collection: app.SelectedFoodsList});
 
 		this.$input = this.$("#search-bar"); // assign variable to jQuery selector for the search bar
 
