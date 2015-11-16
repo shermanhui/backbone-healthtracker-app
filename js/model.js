@@ -79,7 +79,7 @@ app.FoodJournal = Backbone.Firebase.Collection.extend({
 
 });
 
-app.SelectedFoodsList = new app.FoodJournal();
+app.selectedFoods = new app.FoodJournal();
 
 
 // Dom element for individual food items
@@ -105,7 +105,7 @@ app.FoodItemView = Backbone.View.extend({
 
 		console.log(this.model);
 		console.log(this.model.toJSON());
-		this.bus.trigger("showDetailsOnFood", this.model);
+		this.bus.trigger("showDetailsOnFood", this.model.toJSON());
 
 	},
 
@@ -182,9 +182,9 @@ app.FoodDetailsView = Backbone.View.extend({
 
 		console.log(this.model);
 
-		app.SelectedFoodsList.add(this.model.toJSON()); // how can i parse this instead of manually selecting the attribtues
+		app.selectedFoods.add(this.model); // how can i parse this instead of manually selecting the attribtues
 
-		console.log(app.SelectedFoodsList);
+		console.log(app.selectedFoods);
 
 	},
 
@@ -205,7 +205,7 @@ app.FoodDetailsView = Backbone.View.extend({
 
 		this.model = food;
 
-		this.render(food);
+		this.render();
 
 	},
 
@@ -213,7 +213,7 @@ app.FoodDetailsView = Backbone.View.extend({
 
 		if (this.model){ // initially there is no model, the model is passed when the event is triggered
 
-			this.$el.html(this.detailedTemplate(this.model.toJSON())); // renders the details of a food selected, and refreshes the view on new food selected
+			this.$el.html(this.detailedTemplate(this.model)); // renders the details of a food selected, and refreshes the view on new food selected
 
 		}
 
@@ -285,7 +285,7 @@ app.AppView = Backbone.View.extend({
 
 		app.foodListView = new app.FoodListView({collection: app.foods, bus: app.bus});
 
-		app.foodJournal = new app.ShowFoodJournalList({collection: app.SelectedFoodsList});
+		app.foodJournal = new app.ShowFoodJournalList({collection: app.selectedFoods});
 
 		this.$input = this.$("#search-bar"); // assign variable to jQuery selector for the search bar
 
