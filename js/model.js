@@ -98,9 +98,10 @@ app.FoodItemView = Backbone.View.extend({
 
 	onClick: function(){
 
-		console.log(this.model);
-		console.log(this.model.toJSON());
-		this.bus.trigger("showDetailsOnFood", this.model.toJSON());
+		//console.log(this.model);
+		//console.log(this.model.toJSON());
+		//this.bus.trigger("showDetailsOnFood", this.model.toJSON()); // this way doesn't work with this.model.set :(
+		this.bus.trigger("showDetailsOnFood", this.model);
 
 	},
 
@@ -173,11 +174,11 @@ app.FoodDetailsView = Backbone.View.extend({
 
 	addToSelectedFoods : function(){
 
-		console.log(this.model);
+		//console.log(this.model);
 
-		app.selectedFoods.add(this.model);
+		app.selectedFoods.add(this.model.toJSON());
 
-		console.log(app.selectedFoods);
+		//console.log(app.selectedFoods);
 
 	},
 
@@ -186,17 +187,15 @@ app.FoodDetailsView = Backbone.View.extend({
 		this.$quantity = $("#quantity");
 
 		if (e.which === ENTER_KEY && this.$quantity.val().trim()){
-			var numberOfServings = this.$quantity.val();
+			var numberOfServings = parseInt(this.$quantity.val(), 10);
 
-			console.log(this);
+			//console.log(this.model);
 
-			console.log(this.attributes);
+			this.model.set({ num_servings: numberOfServings });
 
-			console.log(this.model);
-
-			this.model.set({ num_servings: "numberOfServings" });
-
-			console.log(this.model);
+			// console.log(this.model);
+			// console.log(this.model.attributes);
+			// console.log(this.model.toJSON());
 		}
 
 	},
@@ -213,7 +212,7 @@ app.FoodDetailsView = Backbone.View.extend({
 
 		if (this.model){ // initially there is no model, the model is passed when the event is triggered
 
-			this.$el.html(this.detailedTemplate(this.model)); // renders the details of a food selected, and refreshes the view on new food selected
+			this.$el.html(this.detailedTemplate(this.model.toJSON())); // renders the details of a food selected, and refreshes the view on new food selected
 
 		}
 
@@ -236,7 +235,7 @@ app.ShowFoodJournalItem = Backbone.View.extend({
 
 	initialize: function(){
 
-		console.log("individual render");
+		//console.log("individual render");
 
 		this.listenTo(this.model, "destroy", this.remove);
 
