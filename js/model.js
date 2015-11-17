@@ -52,8 +52,6 @@ app.FoodList = Backbone.Collection.extend({
 
 	initialize: function(){
 
-		console.log("Collection Initialized");
-
 	},
 
 	parse: function(response){
@@ -159,8 +157,6 @@ app.FoodDetailsView = Backbone.View.extend({
 
 	initialize: function(options){
 
-		this.$quantity = this.$("#quantity");
-
 		this.bus = options.bus;
 
 		this.bus.on("showDetailsOnFood", this.onShowDetailsOnFood, this);
@@ -179,7 +175,7 @@ app.FoodDetailsView = Backbone.View.extend({
 
 		console.log(this.model);
 
-		app.selectedFoods.add(this.model); // how can i parse this instead of manually selecting the attribtues
+		app.selectedFoods.add(this.model);
 
 		console.log(app.selectedFoods);
 
@@ -187,14 +183,21 @@ app.FoodDetailsView = Backbone.View.extend({
 
 	updateQuantityEaten: function(e){ //update quantity of selected food eaten, so we can calculate calories
 
-		console.log(this.$quantity.val());
+		this.$quantity = $("#quantity");
 
-		// if (e.which === ENTER_KEY && this.$quantity.val().trim()){
-		// 	var servings = this.$quantity.val();
+		if (e.which === ENTER_KEY && this.$quantity.val().trim()){
+			var numberOfServings = this.$quantity.val();
 
-		// 	console.log(servings);
-		// }
-		// this.model.attributes.set({num_servings: })
+			console.log(this);
+
+			console.log(this.attributes);
+
+			console.log(this.model);
+
+			this.model.set({ num_servings: "numberOfServings" });
+
+			console.log(this.model);
+		}
 
 	},
 
@@ -240,6 +243,7 @@ app.ShowFoodJournalItem = Backbone.View.extend({
 	},
 
 	events: {
+
 		"click .removeFood" : "removeFood"
 	},
 
@@ -293,7 +297,6 @@ app.ShowFoodJournalList = Backbone.View.extend({
 	tagName: "ul",
 
 	initialize: function(){
-		console.log("list view initialized");
 
 		this.listenTo(this.collection, "add", this.render);
 		// this.listenTo(this.collection, "remove", this.render);
@@ -319,7 +322,7 @@ app.AppView = Backbone.View.extend({
 	el: ".healthapp",
 
 	initialize: function(){
-		console.log("AppView Initialized")
+
 		app.foods = new app.FoodList(); // initialize collection of food
 
 		app.selectedFoods = new app.FoodJournal(); // initialize stored collection of food
