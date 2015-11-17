@@ -21,3 +21,5 @@ Append to List - http://stackoverflow.com/questions/32169863/backbone-js-clickin
 https://jsfiddle.net/nitincool4urchat/2nLezvmg/8/
 
 https://www.youtube.com/watch?v=y-TH67x4JXE
+
+http://goschevski.com/better-collection-iteration-in-backbone-js/
