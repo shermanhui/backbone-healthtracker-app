@@ -25,7 +25,7 @@ app.FoodItem = Backbone.Model.extend({
 
 		nf_calories: 0,
 
-		num_servings: 0,
+		num_servings: 1,
 
 	},
 
@@ -132,6 +132,12 @@ app.FoodListView = Backbone.View.extend({
 	render: function(){
 		var self = this;
 
+		if (self.collection.length) {
+
+			$("#list-placeholder").hide()
+
+		};
+
 		this.$el.empty(); // empty collection on new render
 
 		self.collection.each(function(food){
@@ -166,7 +172,7 @@ app.FoodDetailsView = Backbone.View.extend({
 
 	events: {
 
-		"click .addFood" : "addToSelectedFoods",
+		"click .submit" : "addToSelectedFoods",
 
 		"keypress #quantity" : "updateQuantityEaten"
 
@@ -174,19 +180,9 @@ app.FoodDetailsView = Backbone.View.extend({
 
 	addToSelectedFoods : function(){
 
-		//console.log(this.model);
-
-		app.selectedFoods.add(this.model.toJSON()); // do I HAVE to do it this way??? This is b/c of the way I've passed the model to the bus
-
-		//console.log(app.selectedFoods);
-
-	},
-
-	updateQuantityEaten: function(e){ //update quantity of selected food eaten, so we can calculate calories
-
 		this.$quantity = $("#quantity");
 
-		if (e.which === ENTER_KEY && this.$quantity.val().trim()){
+		if (this.$quantity.val().trim()){
 			var numberOfServings = parseInt(this.$quantity.val(), 10);
 
 			//console.log(this.model);
@@ -196,9 +192,33 @@ app.FoodDetailsView = Backbone.View.extend({
 			// console.log(this.model);
 			// console.log(this.model.attributes);
 			// console.log(this.model.toJSON());
+		} else {
+
+			this.model.set({ num_servings: 1});
+
 		}
 
+		app.selectedFoods.add(this.model.toJSON()); // do I HAVE to do it this way??? This is b/c of the way I've passed the model to the bus
+
 	},
+
+	// updateQuantityEaten: function(e){ //update quantity of selected food eaten, so we can calculate calories
+
+	// 	this.$quantity = $("#quantity");
+
+	// 	if (e.which === ENTER_KEY && this.$quantity.val().trim()){
+	// 		var numberOfServings = parseInt(this.$quantity.val(), 10);
+
+	// 		//console.log(this.model);
+
+	// 		this.model.set({ num_servings: numberOfServings });
+
+	// 		// console.log(this.model);
+	// 		// console.log(this.model.attributes);
+	// 		// console.log(this.model.toJSON());
+	// 	}
+
+	// },
 
 	onShowDetailsOnFood: function(food){ // triggers bus event
 
@@ -209,6 +229,10 @@ app.FoodDetailsView = Backbone.View.extend({
 	},
 
 	render: function(){
+
+		if (app.selectedFoods.length) {
+			$("#detail-placeholder").hide();
+		}
 
 		if (this.model){ // initially there is no model, the model is passed when the event is triggered
 
