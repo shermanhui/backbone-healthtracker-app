@@ -86,7 +86,7 @@ app.FoodItemView = Backbone.View.extend({
 
 	initialize: function(options){
 
-		this.bus = options.bus
+		this.bus = options.bus;
 
 	},
 
@@ -125,7 +125,7 @@ app.FoodListView = Backbone.View.extend({
 
 		this.bus = options.bus;
 
-		this.collection.on('reset', this.render, this);
+		this.listenTo(this.collection, 'reset', this.render);
 
 	},
 
@@ -134,15 +134,15 @@ app.FoodListView = Backbone.View.extend({
 
 		if (self.collection.length) {
 
-			$("#list-placeholder").hide()
+			$("#list-placeholder").hide();
 
-		};
+		}
 
 		this.$el.empty(); // empty collection on new render
 
 		self.collection.each(function(food){
 
-			var renderedFood = new app.FoodItemView({model: food, bus: self.bus})
+			var renderedFood = new app.FoodItemView({model: food, bus: self.bus});
 
 			self.$el.append(renderedFood.render().$el);
 
@@ -160,6 +160,8 @@ app.FoodDetailsView = Backbone.View.extend({
 
 	tagName: "div",
 
+	totalCalTemplate: template("total-template"),
+
 	detailedTemplate: template("detailed-template"),
 
 	initialize: function(options){
@@ -174,15 +176,15 @@ app.FoodDetailsView = Backbone.View.extend({
 
 		"click .submit" : "addToSelectedFoods",
 
-		"keypress #quantity" : "updateQuantityEaten"
+		"keypress #quantity" : "addToSelectedFoods"
 
 	},
 
-	addToSelectedFoods : function(){
+	addToSelectedFoods : function(e){
 
 		this.$quantity = $("#quantity");
 
-		if (this.$quantity.val().trim()){
+		if (e.which === ENTER_KEY && this.$quantity.val().trim()){ // need to fix on click..because this if statement prevents adding selected foods
 			var numberOfServings = parseInt(this.$quantity.val(), 10);
 
 			//console.log(this.model);
@@ -192,33 +194,11 @@ app.FoodDetailsView = Backbone.View.extend({
 			// console.log(this.model);
 			// console.log(this.model.attributes);
 			// console.log(this.model.toJSON());
-		} else {
 
-			this.model.set({ num_servings: 1});
-
+			app.selectedFoods.add(this.model.toJSON()); // do I HAVE to do it this way??? This is b/c of the way I've passed the model to the bus
 		}
 
-		app.selectedFoods.add(this.model.toJSON()); // do I HAVE to do it this way??? This is b/c of the way I've passed the model to the bus
-
 	},
-
-	// updateQuantityEaten: function(e){ //update quantity of selected food eaten, so we can calculate calories
-
-	// 	this.$quantity = $("#quantity");
-
-	// 	if (e.which === ENTER_KEY && this.$quantity.val().trim()){
-	// 		var numberOfServings = parseInt(this.$quantity.val(), 10);
-
-	// 		//console.log(this.model);
-
-	// 		this.model.set({ num_servings: numberOfServings });
-
-	// 		// console.log(this.model);
-	// 		// console.log(this.model.attributes);
-	// 		// console.log(this.model.toJSON());
-	// 	}
-
-	// },
 
 	onShowDetailsOnFood: function(food){ // triggers bus event
 
@@ -231,7 +211,9 @@ app.FoodDetailsView = Backbone.View.extend({
 	render: function(){
 
 		if (app.selectedFoods.length) {
+
 			$("#detail-placeholder").hide();
+
 		}
 
 		if (this.model){ // initially there is no model, the model is passed when the event is triggered
@@ -246,9 +228,9 @@ app.FoodDetailsView = Backbone.View.extend({
 
 });
 
-app.bus = _.extend({}, Backbone.Events); // bus object instantiation, pass bus object to have reference to the data in each view
+app.Bus = _.extend({}, Backbone.Events); // bus object instantiation, pass bus object to have reference to the data in each view
 
-app.FoodDetailView = new app.FoodDetailsView({bus: app.bus})
+app.FoodDetailView = new app.FoodDetailsView({bus: app.Bus});
 
 // render each item in Food Diary
 app.ShowFoodJournalItem = Backbone.View.extend({
@@ -268,10 +250,13 @@ app.ShowFoodJournalItem = Backbone.View.extend({
 	events: {
 
 		"click .removeFood" : "removeFood"
+
 	},
 
 	removeFood: function(){
+
 		this.model.destroy();
+
 	},
 
 	render: function(){
@@ -322,7 +307,23 @@ app.ShowFoodJournalList = Backbone.View.extend({
 	initialize: function(){
 
 		this.listenTo(this.collection, "add", this.render);
-		// this.listenTo(this.collection, "remove", this.render);
+
+		this.listenTo(this.collection, "update", this.renderTotal);
+
+	},
+
+	addOne: function(food){
+
+		var renderedJournal = new app.ShowFoodJournalItem({model: food});
+
+		this.$el.append(renderedJournal.render().$el);
+
+	},
+
+	renderTotal: function(){
+
+		console.log("Hey man, I'm rendering!");
+
 	},
 
 	render: function(){
@@ -330,11 +331,6 @@ app.ShowFoodJournalList = Backbone.View.extend({
 		this.$el.empty();
 
 		this.collection.each(this.addOne, this);
-	},
-
-	addOne: function(food){
-		var renderedJournal = new app.ShowFoodJournalItem({model: food});
-		this.$el.append(renderedJournal.render().$el);
 	}
 
 });
@@ -350,7 +346,7 @@ app.AppView = Backbone.View.extend({
 
 		app.selectedFoods = new app.FoodJournal(); // initialize stored collection of food
 
-		app.foodListView = new app.FoodListView({collection: app.foods, bus: app.bus});
+		app.foodListView = new app.FoodListView({collection: app.foods, bus: app.Bus});
 
 		app.foodJournal = new app.ShowFoodJournalList({collection: app.selectedFoods});
 
