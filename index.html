@@ -15,7 +15,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
     </head>
     <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
+<!--         <nav class="navbar navbar-inverse navbar-fixed-top">
             <a href="" class="navbar-brand">Home</a>
 
         </nav>
@@ -26,37 +26,39 @@
                 <p>Search for the foods you've eaten and track your calories!</p>
             </div>
 
+        </div> -->
+        <div class="container-fluid">
+            <section class="healthapp">
+
+                <section id="search">
+                    <input id="search-bar" placeholder="What Did You Eat?">
+                </section>
+
+                <section id="food-list">
+                    <h2>Search List</h2>
+                    <p id="list-placeholder"> Your searched foods will show up here!</p>
+                    <ul id="foods"></ul>
+                </section>
+
+                <section id="selected-food">
+                    <h2>Details</h2>
+                    <section id="food-details">
+                        <p id="detail-placeholder">Select a Food Item from the List to see details here!</p>
+                    </section>
+
+                    <section id="calories-report">
+                        <h2> What You've Eaten So Far! </h2>
+                        <p>Everything you've eaten and your total calories consumed</p>
+                        <div id="food-diary">
+                            <ul id="foods-journal"></ul>
+                            <label id="total-calories"></label>
+                        </div>
+                    </section>
+                </section>
+
+
+            </section>
         </div>
-
-        <section class="healthapp">
-
-            <section id="search">
-                <input id="search-bar" placeholder="What Did You Eat?">
-            </section>
-
-            <section id="food-list">
-                <h2>Search List</h2>
-                <ul id="foods"></ul>
-            </section>
-
-            <section id="selected-food">
-                <h2>Details</h2>
-                <section id="food-details">
-                    <p>Select a Food Item from the List to see details here!<p>
-                </section>
-
-                <section id="calories-report">
-                    <h2> What You've Eaten So Far! </h2>
-                    <p>Everything you've eaten and a calorie report</p>
-                    <div id="food-diary">
-                        <ul id="foods-journal"></ul>
-                        <label id="total-calories"></label>
-                    </div>
-                </section>
-            </section>
-
-
-        </section>
         <script type="text/template" id="list-template">
             <%= $("#foods>li").length === 0 ?  '' : '' %> <!-- needs work, should show text "list of foods returned from query" -->
             <button><%- item_name %></button>
@@ -64,11 +66,15 @@
         <script type="text/template" id="detailed-template">
             <label><%- item_name %></label>
             <label>Calories Per Serving: <%- nf_calories %></label>
-            Number of Servings:<input id="quantity" placeholder="0"></input>
-            <button class="addFood">Add</button>
+            Number of Servings:<input id="quantity" placeholder="How many servings have you had?"></input>
+            <button class="submit">Submit</button>
+        </script>
+        <script type="text/template">
+            <label> Total Calories: </label>
         </script>
         <script type="text/template" id="journal-template">
             <label><%- item_name %></label>
+            <label>Number of servings: <%- num_servings %></label>
             <label>Calories Per Serving: <%- nf_calories %></label>
             <button class="removeFood">Remove</button>
         </script>
