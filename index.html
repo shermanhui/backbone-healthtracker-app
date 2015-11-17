@@ -50,8 +50,8 @@
                         <h2> What You've Eaten So Far! </h2>
                         <p>Everything you've eaten and the total calories consumed</p>
                         <div id="food-diary">
-                            <ul id="foods-journal"></ul>
                             <label id="total-calories"></label>
+                            <ul id="foods-journal"></ul>
                         </div>
                     </section>
                 </section>
@@ -70,7 +70,7 @@
             <button class="submit">Submit</button>
         </script>
         <script type="text/template" id="total-template">
-            <label>Total Calories: <%-total_cals %></label>
+            <label>Total Calories: <%= total_cals %></label>
         </script>
         <script type="text/template" id="journal-template">
             <label><%- item_name %></label>

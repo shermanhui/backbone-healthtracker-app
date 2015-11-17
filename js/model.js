@@ -160,8 +160,6 @@ app.FoodDetailsView = Backbone.View.extend({
 
 	tagName: "div",
 
-	totalCalTemplate: template("total-template"),
-
 	detailedTemplate: template("detailed-template"),
 
 	initialize: function(options){
@@ -304,6 +302,8 @@ app.ShowFoodJournalList = Backbone.View.extend({
 
 	tagName: "ul",
 
+	totalCalTemplate: template("total-template"),
+
 	initialize: function(){
 
 		this.listenTo(this.collection, "add", this.render);
@@ -321,8 +321,23 @@ app.ShowFoodJournalList = Backbone.View.extend({
 	},
 
 	renderTotal: function(){
+		var cals = 0;
+		var servings = 0;
+		var item_cal = 0;
+		var total_calories = 0;
 
-		console.log("Hey man, I'm rendering!");
+		this.collection.each(function(model){
+			cals = model.get("nf_calories");
+			num = model.get("num_servings");
+
+			item_cal = cals * num;
+
+			total_calories += item_cal;
+
+			return total_calories
+		});
+
+		$("#total-calories").html(this.totalCalTemplate({total_cals : total_calories}));
 
 	},
 
