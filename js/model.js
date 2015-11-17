@@ -235,6 +235,16 @@ app.ShowFoodJournalItem = Backbone.View.extend({
 
 		console.log("individual render");
 
+		this.listenTo(this.model, "destroy", this.remove);
+
+	},
+
+	events: {
+		"click .removeFood" : "removeFood"
+	},
+
+	removeFood: function(){
+		this.model.destroy();
 	},
 
 	render: function(){
@@ -245,7 +255,37 @@ app.ShowFoodJournalItem = Backbone.View.extend({
 	}
 
 });
-// view that shows total calories, servings and foods consumed, iterate through Journal List
+//view that shows total calories, servings and foods consumed, iterate through Journal List
+// app.ShowFoodJournalList = Backbone.View.extend({
+
+// 	el:"#foods-journal",
+
+// 	tagName: "ul",
+
+// 	initialize: function(){
+// 		console.log("list view initialized");
+
+// 		this.listenTo(this.collection, "add", this.render);
+// 	},
+
+// 	render: function(){
+// 		var self = this;
+
+// 		this.$el.empty();
+
+// 		self.collection.each(function(food){
+
+// 			var renderedJournal = new app.ShowFoodJournalItem({model: food})
+
+// 			self.$el.append(renderedJournal.render().$el);
+
+
+// 		});
+// 	}
+
+// });
+
+// which one is faster?
 app.ShowFoodJournalList = Backbone.View.extend({
 
 	el:"#foods-journal",
@@ -256,21 +296,19 @@ app.ShowFoodJournalList = Backbone.View.extend({
 		console.log("list view initialized");
 
 		this.listenTo(this.collection, "add", this.render);
+		// this.listenTo(this.collection, "remove", this.render);
 	},
 
 	render: function(){
-		var self = this;
 
 		this.$el.empty();
 
-		self.collection.each(function(food){
+		this.collection.each(this.addOne, this);
+	},
 
-			var renderedJournal = new app.ShowFoodJournalItem({model: food})
-
-			self.$el.append(renderedJournal.render().$el);
-
-
-		});
+	addOne: function(food){
+		var renderedJournal = new app.ShowFoodJournalItem({model: food});
+		this.$el.append(renderedJournal.render().$el);
 	}
 
 });
