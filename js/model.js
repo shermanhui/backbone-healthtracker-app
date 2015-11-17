@@ -176,7 +176,7 @@ app.FoodDetailsView = Backbone.View.extend({
 
 		//console.log(this.model);
 
-		app.selectedFoods.add(this.model.toJSON());
+		app.selectedFoods.add(this.model.toJSON()); // do I HAVE to do it this way??? This is b/c of the way I've passed the model to the bus
 
 		//console.log(app.selectedFoods);
 
