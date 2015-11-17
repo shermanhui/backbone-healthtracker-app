@@ -1,3 +1,28 @@
+.jumbotron {
+	background: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)), url(http://i.imgur.com/eOX3ccG.jpg);
+	background-size: cover;
+	background-position: center;
+	height: 100vh;
+	width: 100vw;
+}
+
+.v-align {
+	width: 50%;
+	height: 50%;
+	overflow: auto;
+	margin: auto;
+	position: absolute;
+	top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.navbar {
+	border-radius: 0 !important;
+}
+
+#hero-text {
+	color: white;
+}
+
 #header, #search {
 	width: 100vw;
 	text-align: center;

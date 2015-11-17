@@ -8,20 +8,30 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
         <!--<link rel="stylesheet" href="css/normalize.min.css">
         <link rel="stylesheet" href="css/styles.css">-->
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
     </head>
     <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <a href="" class="navbar-brand">Home</a>
+
+        </nav>
+        <div class="jumbotron">
+
+            <div class="text-center v-align" id="hero-text">
+                <h1>Health Tracker App</h1>
+                <p>Search for the foods you've eaten and track your calories!</p>
+            </div>
+
+        </div>
+
         <section class="healthapp">
 
-            <header id="header">
-                <h2>Health Tracker App</h2>
-            </header>
-
             <section id="search">
-                <input id="search-bar" autofocus placeholder="What Did You Eat?">
+                <input id="search-bar" placeholder="What Did You Eat?">
             </section>
 
             <section id="food-list">
