@@ -15,7 +15,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
     </head>
     <body>
-<!--         <nav class="navbar navbar-inverse navbar-fixed-top">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
             <a href="" class="navbar-brand">Home</a>
 
         </nav>
@@ -26,57 +26,56 @@
                 <p>Search for the foods you've eaten and track your calories!</p>
             </div>
 
-        </div> -->
+        </div>
         <div class="container-fluid">
             <section class="healthapp">
 
-                <section id="search">
-                    <input id="search-bar" placeholder="What Did You Eat?">
-                </section>
+                <div class="row input-group" id="search">
+                    <span class="input-group-addon">What Did You Eat?</span>
+                    <input class="col-sm-12 form-control" id="search-bar">
+                </div>
 
-                <section id="food-list">
+                <div class="row col-md-6" id="food-list">
                     <h2>Search List</h2>
                     <p id="list-placeholder"> Your searched foods will show up here!</p>
-                    <ul id="foods"></ul>
-                </section>
+                    <ul class="list-group" id="foods"></ul>
+                </div>
 
-                <section id="selected-food">
+                <div class="row col-md-6" id="selected-food">
                     <h2>Details</h2>
-                    <section id="food-details">
+                    <div id="food-details">
                         <p id="detail-placeholder">Select a Food Item from the List to see details here!</p>
-                    </section>
-
-                    <section id="calories-report">
-                        <h2> What You've Eaten So Far! </h2>
-                        <p>Everything you've eaten and the total calories consumed</p>
+                    </div>
+                    <div id="calories-report">
                         <div id="food-diary">
-                            <label id="total-calories"></label>
-                            <ul id="foods-journal"></ul>
+                            <h2>Your Calories Report</h2>
+                            <p>Today: <label id="total-calories"></label></p>
+                            <h2>What You've Eaten Today</h2>
+                            <ul class="list-group" id="foods-journal"></ul>
                         </div>
-                    </section>
-                </section>
-
+                    </div>
+                </div>
 
             </section>
         </div>
         <script type="text/template" id="list-template">
-            <%= $("#foods>li").length === 0 ?  '' : '' %> <!-- needs work, should show text "list of foods returned from query" -->
-            <button><%- item_name %></button>
+            <li class="list-group-item"><%- item_name %></li>
         </script>
         <script type="text/template" id="detailed-template">
-            <label><%- item_name %></label>
-            <label>Calories Per Serving: <%- nf_calories %></label>
-            Number of Servings:<input id="quantity" placeholder="How many servings have you had?"></input>
-            <button class="submit">Submit</button>
+            <div>
+                <h2><%- item_name %></h2>
+                <p>Calories Per Serving: <%- nf_calories %></p>
+                <div class="input-group">
+                    <span class="input-group-addon">Number of Servings</span>
+                    <input class="form-control" id="quantity" placeholder="1"></input>
+                </div>
+            </div>
         </script>
         <script type="text/template" id="total-template">
-            <label>Total Calories: <%= total_cals %></label>
+            <label><%= total_cals %> kCal</label>
         </script>
         <script type="text/template" id="journal-template">
-            <label><%- item_name %></label>
-            <label>Number of servings: <%- num_servings %></label>
-            <label>Calories Per Serving: <%- nf_calories %></label>
-            <button class="removeFood">Remove</button>
+            <li class="list-group-item"><%- item_name %>, Servings: <%- num_servings %>, Cals Per Serving: <%- nf_calories %><button class="removeFood pull-right">Remove</button></li>
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
