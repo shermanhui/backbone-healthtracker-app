@@ -30,11 +30,6 @@
 	padding: 0px;
 }
 
-#foods button {
-	width: 100%;
-	text-align: left;
-}
-
 #foods, #foods-journal li {
 	list-style: none;
 }
