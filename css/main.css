@@ -6,16 +6,16 @@
 	width: 100vw;
 }
 
+.healthapp{
+	height: 100vh;
+}
+
 .v-align {
 	width: 50%;
 	height: 30%;
 	margin: auto;
 	position: absolute;
 	top: 0; left: 0; bottom: 0; right: 0;
-}
-
-.navbar {
-	border-radius: 0 !important;
 }
 
 #hero-text {
