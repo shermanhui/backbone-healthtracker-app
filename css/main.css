@@ -2,6 +2,21 @@ body {
 	padding-top: 40px;
 }
 
+.hero-screen {
+	padding-top: 40px;
+	background: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)), url(http://i.imgur.com/eOX3ccG.jpg);
+	background-size: cover;
+	background-position: center;
+	height: 100vh;
+	width: 100vw;
+	margin-bottom: 0 !important;
+	overflow: auto;
+}
+
+.hero-screen h2, h1, p {
+	color: white;
+}
+
 .jumbotron {
 	background: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)), url(http://i.imgur.com/eOX3ccG.jpg);
 	background-size: cover;
@@ -9,6 +24,7 @@ body {
 	height: 100vh;
 	width: 100vw;
 	margin-bottom: 0 !important;
+	overflow: auto;
 }
 
 .jumbotron h2, h1, p {
@@ -49,21 +65,19 @@ body {
 
 #foods, #foods-journal {
 	padding: 0px;
+	list-style: none;
 }
 
 #foods-journal .list-group-item {
 	margin-top: -1px;
 	border-radius: 0;
 	border: 1px solid black;
-	list-style: none;
 }
 
 #foods .list-group-item {
 	margin-top: -1px;
 	border-radius: 0;
 	border: 1px solid black;
-	list-style: none;
 }
 @media screen and (max-width: 768px) {
-    body { padding-top: 0px; }
 }
