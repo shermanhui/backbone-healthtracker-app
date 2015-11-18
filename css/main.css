@@ -8,10 +8,21 @@ body {
 	background-position: center;
 	height: 100vh;
 	width: 100vw;
+	margin-bottom: 0 !important;
 }
 
-.healthapp{
-	height: 100vh;
+.jumbotron h2, h1, p {
+	color: white;
+}
+
+.transparency {
+	background: rgba(255,255,255,0.3) !important;
+}
+
+.input-header {
+	color: #9d9d9d !important;
+	border: none !important;
+	background-color: black !important;
 }
 
 .v-align {
@@ -28,16 +39,31 @@ body {
 
 .row#food-list {
 	margin-right: 15px !important;
+	padding-left: 20px;
+}
+
+.row#search {
+	margin-right: 5px;
+	margin-left: 5px;
 }
 
 #foods, #foods-journal {
 	padding: 0px;
 }
 
-#foods, #foods-journal li {
+#foods-journal .list-group-item {
+	margin-top: -1px;
+	border-radius: 0;
+	border: 1px solid black;
 	list-style: none;
 }
 
+#foods .list-group-item {
+	margin-top: -1px;
+	border-radius: 0;
+	border: 1px solid black;
+	list-style: none;
+}
 @media screen and (max-width: 768px) {
     body { padding-top: 0px; }
 }
