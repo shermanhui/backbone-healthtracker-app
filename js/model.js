@@ -396,4 +396,18 @@ app.AppView = Backbone.View.extend({
 	}
 });
 
+app.AppRouter = Backbone.Router.extend({
+
+	routers: {
+		"home" : "viewLandingPage"
+	},
+
+	viewLandingPage: function(){
+
+	},
+});
+
+var Router = new app.AppRouter();
+Backbone.history.start();
+
 app.AppView = new app.AppView();
