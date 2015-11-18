@@ -3,7 +3,9 @@ var app = app || {};
 
 // template fetching helper function in global namespace
 var template = function(id){
+
 	return _.template($("#" + id).html());
+
 };
 
 var ENTER_KEY = 13;
@@ -263,37 +265,7 @@ app.ShowFoodJournalItem = Backbone.View.extend({
 	}
 
 });
-//view that shows total calories, servings and foods consumed, iterate through Journal List
-// app.ShowFoodJournalList = Backbone.View.extend({
 
-// 	el:"#foods-journal",
-
-// 	tagName: "ul",
-
-// 	initialize: function(){
-// 		console.log("list view initialized");
-
-// 		this.listenTo(this.collection, "add", this.render);
-// 	},
-
-// 	render: function(){
-// 		var self = this;
-
-// 		this.$el.empty();
-
-// 		self.collection.each(function(food){
-
-// 			var renderedJournal = new app.ShowFoodJournalItem({model: food})
-
-// 			self.$el.append(renderedJournal.render().$el);
-
-
-// 		});
-// 	}
-
-// });
-
-// which one is faster?
 app.ShowFoodJournalList = Backbone.View.extend({
 
 	el:"#foods-journal",
@@ -350,6 +322,22 @@ app.ShowFoodJournalList = Backbone.View.extend({
 
 });
 
+app.JumboView = Backbone.View.extend({
+	el: ".healthapp",
+
+	initialize: function(){
+		console.log("check one");
+	},
+
+	jumboTemplate: template("jumbotron-template"),
+
+	render: function(){
+		this.$el.html(this.jumboTemplate());
+
+		return this;
+	}
+});
+
 // overall App view, this is helpful b/c events only look at decendants of "el"
 app.AppView = Backbone.View.extend({
 
@@ -398,16 +386,51 @@ app.AppView = Backbone.View.extend({
 
 app.AppRouter = Backbone.Router.extend({
 
+	initialize: function(){
+		console.log("router initialized")
+		this.viewApp();
+	},
 	routers: {
-		"home" : "viewLandingPage"
+		"home": "homePage",
+		"application": "viewApp"
 	},
 
-	viewLandingPage: function(){
+	homePage: function(){
+
+		var jumboView = new app.JumboView();
+		console.log("jumbo view should show up..");
+		jumboView.render();
 
 	},
+
+	viewApp: function(){
+		console.log("yo");
+		app.AppView = new app.AppView();
+	}
 });
 
-var Router = new app.AppRouter();
 Backbone.history.start();
+var router = new app.AppRouter();
 
-app.AppView = new app.AppView();
+app.NavView = Backbone.View.extend({
+	el: "#nav",
+
+	initialize: function(){
+		console.log("NavView UP and LISTENING")
+	},
+
+	events: {
+		"click": "onClick"
+	},
+
+	onClick: function(e){
+		console.log("navview works")
+		var $li = $(e.target);
+		var url = $li.attr("data-url");
+
+		console.log(url + ": url printed out and shows on addy bar");
+		router.navigate(url, {trigger: true});
+	}
+});
+
+var navView = new app.NavView();
