@@ -327,14 +327,16 @@ app.ShowFoodJournalList = Backbone.View.extend({
 		var total_calories = 0;
 
 		this.collection.each(function(model){
+
 			cals = model.get("nf_calories");
+
 			num = model.get("num_servings");
 
 			item_cal = cals * num;
 
 			total_calories += item_cal;
 
-			return total_calories
+			return total_calories;
 		});
 
 		$("#total-calories").html(this.totalCalTemplate({total_cals : total_calories}));
