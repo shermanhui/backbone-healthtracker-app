@@ -25,7 +25,7 @@
                 </button>
                 <a href="" class="navbar-brand">LOGO</a>
             </div>
-            <div class="collapse navbar-collapse" id="app-nav">
+            <div class="collapse navbar-collapse" id="nav">
                 <ul class="nav navbar-nav">
                     <li><a data-url="home">Home</a></li>
                     <li><a data-url="application">Tracker</a></li>
@@ -35,7 +35,7 @@
         <div class="container-fluid hero-screen">
             <section class="healthapp">
 
-<!--                 <div class="row input-group" id="search">
+                <div class="row input-group" id="search">
                     <span class="input-group-addon input-header">What Did You Eat?</span>
                     <input class="col-sm-12 form-control" id="search-bar">
                 </div>
@@ -59,7 +59,7 @@
                             <ul class="list-group" id="foods-journal"></ul>
                         </div>
                     </div>
-                </div> -->
+                </div>
 
             </section>
         </div>
@@ -88,7 +88,7 @@
             <label><%= total_cals %> kCal</label>
         </script>
         <script type="text/template" id="journal-template">
-            <li class="list-group-item transparency"><%- item_name %>, Servings: <%- num_servings %>, Cals Per Serving: <%- nf_calories %><button class="removeFood pull-right">Remove</button></li>
+            <li class="list-group-item transparency"><%- item_name %>, Servings: <%- num_servings %>, Cals Per Serving: <%- nf_calories %><span class="removeFood pull-right glyphicon glyphicon-remove-circle"></span></li>
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
