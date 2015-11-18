@@ -172,8 +172,6 @@ app.FoodDetailsView = Backbone.View.extend({
 
 	events: {
 
-		"click .submit" : "addToSelectedFoods",
-
 		"keypress #quantity" : "addToSelectedFoods"
 
 	},
