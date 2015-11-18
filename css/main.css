@@ -22,39 +22,19 @@
 	color: white;
 }
 
-/*#search #search-bar {
-	width: 100vw;
-	text-align: center;
-}*/
-
-/*#selected-food {
-	display: inline-block;
-	height: 80vh;
+.row#food-list {
+	margin-right: 15px !important;
 }
 
-#search-bar {
-	width: 100%;
-	text-align: center;
-}
-
-#food-list {
-	display: inline-block;
-	height: 80vh;
-	width: 50vw;
-	text-align: center;
-}
-
-#foods {
+#foods, #foods-journal {
 	padding: 0px;
-}*/
+}
 
 #foods button {
-	appearance: none;
-	border: none;
 	width: 100%;
 	text-align: left;
 }
 
-#foods li {
+#foods, #foods-journal li {
 	list-style: none;
 }
