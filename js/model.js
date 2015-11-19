@@ -322,26 +322,12 @@ app.ShowFoodJournalList = Backbone.View.extend({
 
 });
 
-app.JumboView = Backbone.View.extend({
-	el: ".healthapp",
-
-	initialize: function(){
-		console.log("check one");
-	},
-
-	jumboTemplate: template("jumbotron-template"),
-
-	render: function(){
-		this.$el.html(this.jumboTemplate());
-
-		return this;
-	}
-});
-
 // overall App view, this is helpful b/c events only look at decendants of "el"
 app.AppView = Backbone.View.extend({
 
 	el: ".healthapp",
+
+	jumboTemplate: template("jumbotron-template"),
 
 	initialize: function(){
 
@@ -349,21 +335,27 @@ app.AppView = Backbone.View.extend({
 
 		app.selectedFoods = new app.FoodJournal(); // initialize stored collection of food
 
-		app.foodListView = new app.FoodListView({collection: app.foods, bus: app.Bus});
+		app.foodListView = new app.FoodListView({collection: app.foods, bus: app.Bus}); // new food list view
 
-		app.foodJournal = new app.ShowFoodJournalList({collection: app.selectedFoods});
-
-		this.$input = this.$("#search-bar"); // assign variable to jQuery selector for the search bar
+		app.foodJournal = new app.ShowFoodJournalList({collection: app.selectedFoods}); // new stored list view
 
 	},
 
 	events: {
 
-		"keypress #search-bar": "searchOnEnter"
+		"keypress #search-bar": "searchOnEnter",
+
+		"click #jumbo-button": "onClick"
+	},
+
+	onClick: function(e){
+
+		navView.onClick(e);
 
 	},
 
 	searchOnEnter: function(e){
+		this.$input = this.$("#search-bar");
 
 		if (e.which === ENTER_KEY && this.$input.val().trim()){ // if enter key and there is a value in the search bar
 
@@ -381,56 +373,71 @@ app.AppView = Backbone.View.extend({
 
 			this.$input.val(''); //clears input after Enter
 		}
+	},
+
+	renderJumbo: function(){
+		this.$el.html(this.jumboTemplate());
+
+		return this;
 	}
 });
 
 app.AppRouter = Backbone.Router.extend({
 
-	initialize: function(){
-		console.log("router initialized")
-		this.viewApp();
+	initialize: function() {
+		this.homePage();
 	},
-	routers: {
-		"home": "homePage",
-		"application": "viewApp"
+
+	routes: {
+		'': 'homePage',
+		'home': 'homePage',
+		'application': 'viewApp'
 	},
 
 	homePage: function(){
 
-		var jumboView = new app.JumboView();
-		console.log("jumbo view should show up..");
-		jumboView.render();
+		var AppView = new app.AppView();
+		AppView.renderJumbo();
 
 	},
 
 	viewApp: function(){
 		console.log("yo");
-		app.AppView = new app.AppView();
+		// app.AppView = new app.AppView();
+		// app.AppView.render();
+
 	}
 });
 
 Backbone.history.start();
 var router = new app.AppRouter();
 
+// app.JumboView = Backbone.View.extend({
+// 	el: ".healthapp",
+
+// 	jumboTemplate: template("jumbotron-template"),
+
+// 	render: function(){
+// 		this.$el.html(this.jumboTemplate());
+
+// 		return this;
+// 	}
+// });
+
 app.NavView = Backbone.View.extend({
 	el: "#nav",
-
-	initialize: function(){
-		console.log("NavView UP and LISTENING")
-	},
 
 	events: {
 		"click": "onClick"
 	},
 
 	onClick: function(e){
-		console.log("navview works")
 		var $li = $(e.target);
 		var url = $li.attr("data-url");
 
-		console.log(url + ": url printed out and shows on addy bar");
 		router.navigate(url, {trigger: true});
 	}
 });
 
+// app.AppView = new app.AppView();
 var navView = new app.NavView();
