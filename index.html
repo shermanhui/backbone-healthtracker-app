@@ -63,6 +63,33 @@
 
             </section>
         </div>
+        <script type="text/template" id="app-template">
+                <div class="row input-group" id="search">
+                    <span class="input-group-addon input-header">What Did You Eat?</span>
+                    <input class="col-sm-12 form-control" id="search-bar">
+                </div>
+
+                <div class="row col-md-6 text-center" id="food-list">
+                    <h2>Search List</h2>
+                    <p id="list-placeholder"> Your searched foods will show up here!</p>
+                    <ul class="list-group" id="foods"></ul>
+                </div>
+
+                <div class="row col-md-6" id="selected-food">
+                    <h2>Details</h2>
+                    <div id="food-details">
+                        <p id="detail-placeholder">Select a Food Item from the List to see details here!</p>
+                    </div>
+                    <div id="calories-report">
+                        <div id="food-diary">
+                            <h2>Your Calories Report</h2>
+                            <p>Today: <label id="total-calories"></label></p>
+                            <h2>What Youve Eaten Today</h2>
+                            <ul class="list-group" id="foods-journal"></ul>
+                        </div>
+                    </div>
+                </div>
+        </script>
         <script type="text/template" id="jumbotron-template">
             <div>
                 <div class="text-center v-align" id="hero-text">
