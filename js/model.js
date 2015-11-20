@@ -329,6 +329,8 @@ app.AppView = Backbone.View.extend({
 
 	jumboTemplate: template("jumbotron-template"),
 
+	appTemplate: template("app-template"),
+
 	initialize: function(){
 
 		app.foods = new app.FoodList(); // initialize collection of food
@@ -375,6 +377,12 @@ app.AppView = Backbone.View.extend({
 		}
 	},
 
+	render: function(){
+		this.$el.html(this.appTemplate());
+
+		return this;
+	},
+
 	renderJumbo: function(){
 		this.$el.html(this.jumboTemplate());
 
@@ -383,10 +391,6 @@ app.AppView = Backbone.View.extend({
 });
 
 app.AppRouter = Backbone.Router.extend({
-
-	initialize: function() {
-		this.homePage();
-	},
 
 	routes: {
 		'': 'homePage',
@@ -403,14 +407,14 @@ app.AppRouter = Backbone.Router.extend({
 
 	viewApp: function(){
 		console.log("yo");
-		// app.AppView = new app.AppView();
-		// app.AppView.render();
+		var AppView = new app.AppView();
+		AppView.render();
 
 	}
 });
 
-Backbone.history.start();
 var router = new app.AppRouter();
+Backbone.history.start();
 
 // app.JumboView = Backbone.View.extend({
 // 	el: ".healthapp",
