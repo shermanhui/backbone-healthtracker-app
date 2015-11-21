@@ -339,7 +339,7 @@ app.AppView = Backbone.View.extend({
 
 		app.selectedFoods = new app.FoodJournal(); // initialize stored collection of food
 
-		app.FoodDetailView = new app.FoodDetailsView({bus: app.Bus}); // selected food item
+		app.foodDetailView = new app.FoodDetailsView({bus: app.Bus}); // selected food item
 
 		app.foodListView = new app.FoodListView({collection: app.foods, bus: app.Bus}); // new food list view
 
@@ -381,15 +381,40 @@ app.AppView = Backbone.View.extend({
 		}
 	},
 
-	assign: function(view, selector){
-		view.setElement(this.$(selector)).render();
+	assign: function(selector, view) {
+
+		var selectors;
+
+		if (_.isObject(selector)) {
+
+			selectors = selector;
+
+		} else {
+
+			selectors = {};
+
+			selectors[selector] = view;
+
+		}
+
+		if (!selectors) return;
+
+		_.each(selectors, function (view, selector) {
+
+			view.setElement(this.$(selector)).render();
+
+		}, this);
 	},
 
 	render: function(){
+
 		this.$el.html(this.appTemplate());
-		this.assign(app.foodListView, '#foods');
-		this.assign(app.FoodDetailView, "#food-details");
-		this.assign(app.foodJournal, '#foods-journal');
+
+		this.assign({
+			'#foods'         : app.foodListView,
+			'#food-details'  : app.foodDetailView,
+			"#foods-journal" : app.foodJournal
+		});
 
 		return this;
 	},
