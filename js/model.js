@@ -100,16 +100,13 @@ app.FoodItemView = Backbone.View.extend({
 
 	onClick: function(){
 
-		//console.log(this.model);
-		//console.log(this.model.toJSON());
-		//this.bus.trigger("showDetailsOnFood", this.model.toJSON()); // this way doesn't work with this.model.set :(
 		this.bus.trigger("showDetailsOnFood", this.model);
 
 	},
 
 	render: function(){
 
-		this.$el.html(this.listTemplate(this.model.toJSON()));
+		this.$el.html(this.listTemplate(this.model.toJSON())); // can do $("#foods").append to get list to show up...but breaks a lot of things
 
 		return this;
 	}
@@ -189,10 +186,6 @@ app.FoodDetailsView = Backbone.View.extend({
 
 			this.model.set({ num_servings: numberOfServings });
 
-			// console.log(this.model);
-			// console.log(this.model.attributes);
-			// console.log(this.model.toJSON());
-
 			app.selectedFoods.add(this.model.toJSON()); // do I HAVE to do it this way??? This is b/c of the way I've passed the model to the bus
 		}
 
@@ -222,7 +215,6 @@ app.FoodDetailsView = Backbone.View.extend({
 
 		return this;
 	}
-
 
 });
 
@@ -390,58 +382,46 @@ app.AppView = Backbone.View.extend({
 	}
 });
 
-app.AppRouter = Backbone.Router.extend({
+app.AppView = new app.AppView();
+// app.AppRouter = Backbone.Router.extend({
 
-	routes: {
-		'': 'homePage',
-		'home': 'homePage',
-		'application': 'viewApp'
-	},
+// 	routes: {
+// 		'': 'homePage',
+// 		'home': 'homePage',
+// 		'application': 'viewApp'
+// 	},
 
-	homePage: function(){
+// 	homePage: function(){
 
-		var AppView = new app.AppView();
-		AppView.renderJumbo();
+// 		var AppView = new app.AppView();
+// 		AppView.renderJumbo();
 
-	},
+// 	},
 
-	viewApp: function(){
-		console.log("yo");
-		var AppView = new app.AppView();
-		AppView.render();
+// 	viewApp: function(){
 
-	}
-});
+// 		var AppView = new app.AppView();
+// 		AppView.render();
 
-var router = new app.AppRouter();
-Backbone.history.start();
-
-// app.JumboView = Backbone.View.extend({
-// 	el: ".healthapp",
-
-// 	jumboTemplate: template("jumbotron-template"),
-
-// 	render: function(){
-// 		this.$el.html(this.jumboTemplate());
-
-// 		return this;
 // 	}
 // });
 
-app.NavView = Backbone.View.extend({
-	el: "#nav",
+// var router = new app.AppRouter();
+// Backbone.history.start();
 
-	events: {
-		"click": "onClick"
-	},
+// app.NavView = Backbone.View.extend({
+// 	el: "#nav",
 
-	onClick: function(e){
-		var $li = $(e.target);
-		var url = $li.attr("data-url");
+// 	events: {
+// 		"click": "onClick"
+// 	},
 
-		router.navigate(url, {trigger: true});
-	}
-});
+// 	onClick: function(e){
+// 		var $li = $(e.target);
+// 		var url = $li.attr("data-url");
 
-// app.AppView = new app.AppView();
-var navView = new app.NavView();
+// 		router.navigate(url, {trigger: true});
+// 	}
+// });
+
+// var navView = new app.NavView();
