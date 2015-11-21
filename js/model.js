@@ -116,6 +116,7 @@ app.FoodItemView = Backbone.View.extend({
 
 // iterate through foodlist
 app.FoodListView = Backbone.View.extend({
+
 	el: "#foods",
 
 	tagName: "ul",
@@ -216,10 +217,6 @@ app.FoodDetailsView = Backbone.View.extend({
 
 });
 
-app.Bus = _.extend({}, Backbone.Events); // bus object instantiation, pass bus object to have reference to the data in each view
-
-app.FoodDetailView = new app.FoodDetailsView({bus: app.Bus});
-
 // render each item in Food Diary
 app.ShowFoodJournalItem = Backbone.View.extend({
 
@@ -310,6 +307,23 @@ app.ShowFoodJournalList = Backbone.View.extend({
 
 });
 
+app.NavView = Backbone.View.extend({
+	el: ".nav",
+
+	events: {
+		"click": "onClick"
+	},
+
+	onClick: function(e){
+		var $li = $(e.target);
+		var url = $li.attr("data-url");
+
+		router.navigate(url, {trigger: true});
+	}
+});
+
+app.navView = new app.NavView();
+
 // overall App view, this is helpful b/c events only look at decendants of "el"
 app.AppView = Backbone.View.extend({
 
@@ -324,6 +338,8 @@ app.AppView = Backbone.View.extend({
 		app.foods = new app.FoodList(); // initialize collection of food
 
 		app.selectedFoods = new app.FoodJournal(); // initialize stored collection of food
+
+		app.FoodDetailView = new app.FoodDetailsView({bus: app.Bus}); // selected food item
 
 		app.foodListView = new app.FoodListView({collection: app.foods, bus: app.Bus}); // new food list view
 
@@ -340,7 +356,7 @@ app.AppView = Backbone.View.extend({
 
 	onClick: function(e){
 
-		navView.onClick(e);
+		app.navView.onClick(e);
 
 	},
 
@@ -365,8 +381,15 @@ app.AppView = Backbone.View.extend({
 		}
 	},
 
+	assign: function(view, selector){
+		view.setElement(this.$(selector)).render();
+	},
+
 	render: function(){
 		this.$el.html(this.appTemplate());
+		this.assign(app.foodListView, '#foods');
+		this.assign(app.FoodDetailView, "#food-details");
+		this.assign(app.foodJournal, '#foods-journal');
 
 		return this;
 	},
@@ -378,46 +401,33 @@ app.AppView = Backbone.View.extend({
 	}
 });
 
-app.AppView = new app.AppView();
-// app.AppRouter = Backbone.Router.extend({
+app.Bus = _.extend({}, Backbone.Events); // bus object instantiation, pass bus object to have reference to the data in each view
 
-// 	routes: {
-// 		'': 'homePage',
-// 		'home': 'homePage',
-// 		'application': 'viewApp'
-// 	},
+app.AppRouter = Backbone.Router.extend({
+	initialize: function(){
 
-// 	homePage: function(){
+		appView = new app.AppView();
 
-// 		var AppView = new app.AppView();
-// 		AppView.renderJumbo();
+	},
 
-// 	},
+	routes: {
+		'': 'homePage',
+		'home': 'homePage',
+		'application': 'viewApp'
+	},
 
-// 	viewApp: function(){
+	homePage: function(){
 
-// 		var AppView = new app.AppView();
-// 		AppView.render();
+		appView.renderJumbo();
 
-// 	}
-// });
+	},
 
-// var router = new app.AppRouter();
-// Backbone.history.start();
+	viewApp: function(){
 
-// app.NavView = Backbone.View.extend({
-// 	el: "#nav",
+		appView.render();
 
-// 	events: {
-// 		"click": "onClick"
-// 	},
+	}
+});
 
-// 	onClick: function(e){
-// 		var $li = $(e.target);
-// 		var url = $li.attr("data-url");
-
-// 		router.navigate(url, {trigger: true});
-// 	}
-// });
-
-// var navView = new app.NavView();
+var router = new app.AppRouter();
+Backbone.history.start();
