@@ -8,6 +8,7 @@ http://stackoverflow.com/questions/20506543/backbone-how-to-update-a-collection-
 http://stackoverflow.com/questions/32336397/backbone-js-populating-collections-separately
 http://stackoverflow.com/questions/9337927/how-to-handle-initializing-and-rendering-subviews-in-backbone-js
 http://ianstormtaylor.com/rendering-views-in-backbonejs-isnt-always-simple/
+http://ianstormtaylor.com/assigning-backbone-subviews-made-even-cleaner/
 
 #Links for future reference
 http://stackoverflow.com/questions/11331604/backbone-js-ajax-calls
