@@ -16,6 +16,7 @@
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
@@ -25,42 +26,16 @@
                 </button>
                 <a href="" class="navbar-brand">LOGO</a>
             </div>
-            <div class="collapse navbar-collapse" id="nav">
+            <div class="nav collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a data-url="home">Home</a></li>
                     <li><a data-url="application">Tracker</a></li>
                 </ul>
             </div>
+            </div>
         </nav>
         <div class="container-fluid hero-screen">
             <section class="healthapp">
-
-                <div class="row input-group" id="search">
-                    <span class="input-group-addon input-header">What Did You Eat?</span>
-                    <input class="col-sm-12 form-control" id="search-bar">
-                </div>
-
-                <div class="row col-md-6 text-center" id="food-list">
-                    <h2>Search List</h2>
-                    <p id="list-placeholder"> Your searched foods will show up here!</p>
-                    <ul class="list-group" id="foods"></ul>
-                </div>
-
-                <div class="row col-md-6" id="selected-food">
-                    <h2>Details</h2>
-                    <div id="food-details">
-                        <p id="detail-placeholder">Select a Food Item from the List to see details here!</p>
-                    </div>
-                    <div id="calories-report">
-                        <div id="food-diary">
-                            <h2>Your Calories Report</h2>
-                            <p>Today: <label id="total-calories"></label></p>
-                            <h2>What You've Eaten Today</h2>
-                            <ul class="list-group" id="foods-journal"></ul>
-                        </div>
-                    </div>
-                </div>
-
             </section>
         </div>
         <script type="text/template" id="app-template">
@@ -119,6 +94,7 @@
             <li class="list-group-item transparency"><%- item_name %>, Servings: <%- num_servings %>, Cals Per Serving: <%- nf_calories %><span class="removeFood pull-right glyphicon glyphicon-remove-circle"></span></li>
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
         <script src="https://cdn.firebase.com/js/client/2.3.1/firebase.js"></script>
