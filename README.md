@@ -5,6 +5,9 @@ SPA that tracks a user's calorie intake, and optionally, other health-related me
 http://stackoverflow.com/questions/15545697/backbone-js-accessing-model-attributes-within-model-this-attribute-vs-this-get
 http://stackoverflow.com/questions/10262498/backbone-model-tojson-doesnt-render-all-attributes-to-json // for reference
 http://stackoverflow.com/questions/20506543/backbone-how-to-update-a-collection-view-when-collection-changes
+http://stackoverflow.com/questions/32336397/backbone-js-populating-collections-separately
+http://stackoverflow.com/questions/9337927/how-to-handle-initializing-and-rendering-subviews-in-backbone-js
+http://ianstormtaylor.com/rendering-views-in-backbonejs-isnt-always-simple/
 
 #Links for future reference
 http://stackoverflow.com/questions/11331604/backbone-js-ajax-calls
