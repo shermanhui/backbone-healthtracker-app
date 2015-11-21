@@ -263,7 +263,7 @@ app.ShowFoodJournalList = Backbone.View.extend({
 
 		this.listenTo(this.collection, "add", this.render);
 
-		this.listenTo(this.collection, "update", this.renderTotal);
+		this.listenTo(this.collection, "sync", this.renderTotal);
 
 	},
 
