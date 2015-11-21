@@ -1,6 +1,7 @@
 body {
 	padding-top: 40px;
 }
+
 .removeFood.glyphicon-remove-circle {
 	color: red;
 	font-size: 1.5em;
@@ -38,6 +39,14 @@ body {
 #jumbo-button:hover {
 	cursor: default;
 	background: rgba(255,255,255,0.8) !important
+}
+
+.avocado:hover {
+	cursor: default;
+}
+
+.nav.navbar-nav {
+	cursor: default;
 }
 
 .jumbotron h2, h1, p {
