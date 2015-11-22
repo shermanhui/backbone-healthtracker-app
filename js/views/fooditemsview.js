@@ -1,20 +1,69 @@
-// var app = app || {};
+var app = app || {};
 
-// // Dom element for individual food items
-// app.FoodsView = Backbone.View.extend({
+// Dom element for individual food items
+app.FoodItemView = Backbone.View.extend({
 
-// 	tagName: 'li',
+	tagName: 'li',
 
-// 	initialize: function(){
+	listTemplate: template("list-template"),
 
-// 	},
+	initialize: function(options){
 
-// 	render: function(){
-// 		this.$el.html(this.model.get("name"));
+		this.bus = options.bus;
 
-// 		return this;
-// 	}
+	},
 
-// });
+	events: {
 
-// app.foodview = new app.FoodsView();
+		"click" : "onClick"
+
+	},
+
+	onClick: function(){
+
+		this.bus.trigger("showDetailsOnFood", this.model);
+
+	},
+
+	render: function(){
+
+		this.$el.html(this.listTemplate(this.model.toJSON())); // can do $("#foods").append to get list to show up...but breaks a lot of things
+
+		return this;
+	}
+
+});
+
+// render each item in Food Diary
+app.ShowFoodJournalItem = Backbone.View.extend({
+
+	tagName: "li",
+
+	journalTemplate: template("journal-template"),
+
+	initialize: function(){
+
+		this.listenTo(this.model, "destroy", this.remove);
+
+	},
+
+	events: {
+
+		"click .removeFood" : "removeFood"
+
+	},
+
+	removeFood: function(){
+
+		this.model.destroy();
+
+	},
+
+	render: function(){
+
+		this.$el.html(this.journalTemplate(this.model.toJSON()));
+
+		return this;
+	}
+
+});
