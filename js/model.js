@@ -251,7 +251,7 @@ app.ShowFoodJournalItem = Backbone.View.extend({
 
 });
 
-app.ShowFoodJournalList = Backbone.View.extend({
+app.showFoodJournalList = Backbone.View.extend({
 
 	el:"#foods-journal",
 
@@ -263,7 +263,7 @@ app.ShowFoodJournalList = Backbone.View.extend({
 
 		this.listenTo(this.collection, "add", this.render);
 
-		this.listenTo(this.collection, "sync", this.renderTotal);
+		this.listenTo(this.collection, "update", this.renderTotal);
 
 	},
 
@@ -343,7 +343,7 @@ app.AppView = Backbone.View.extend({
 
 		app.foodListView = new app.FoodListView({collection: app.foods, bus: app.Bus}); // new food list view
 
-		app.foodJournal = new app.ShowFoodJournalList({collection: app.selectedFoods}); // new stored list view
+		app.foodJournal = new app.showFoodJournalList({collection: app.selectedFoods}); // new stored list view
 
 	},
 
@@ -409,6 +409,8 @@ app.AppView = Backbone.View.extend({
 	render: function(){
 
 		this.$el.html(this.appTemplate());
+
+		app.foodJournal.setElement(this.$("food-details")).renderTotal();
 
 		this.assign({
 			'#foods'         : app.foodListView,
