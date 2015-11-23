@@ -1,12 +1,20 @@
 # backbone-healthtracker-app
 SPA that tracks a user's calorie intake, and optionally, other health-related metrics.
 
-##Personal Objectives
-- ~Learn how to use, BackboneJS, a MV* Framework~
-- ~Learn how to use Firebase~
-- ~Get comfortable using APIs ([Nutritionix API](https://developer.nutritionix.com/docs/v1_1))~
+##How To Use
+- Visit shui91.github.io/backbone-healthtracker-app or download and run `index.html`
+- Click on 'Tracker' tab or button on landing page to access application
+- Search for a food you've eaten
+- Click on the appropriate item to have details displayed on the right handside
+- Enter the number of servings you had to have it added to the list of foods eaten
+- Remove foods by clicking the red x button
 
-##Future to dos
+##Personal Objectives
+-~~Learn how to use, BackboneJS, a MV* Framework~~
+-~~Learn how to use Firebase~~
+-~~Get comfortable using APIs ([Nutritionix API](https://developer.nutritionix.com/docs/v1_1))~~
+
+##Future To Dos
 - Add Calendar functionality to allow user to store data for specific days
 
 ##Resources Used
