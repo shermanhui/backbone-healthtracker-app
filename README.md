@@ -10,9 +10,9 @@ SPA that tracks a user's calorie intake, and optionally, other health-related me
 - Remove foods by clicking the red x button
 
 ##Personal Objectives
--~~Learn how to use, BackboneJS, a MV* Framework~~
--~~Learn how to use Firebase~~
--~~Get comfortable using APIs ([Nutritionix API](https://developer.nutritionix.com/docs/v1_1))~~
+- ~~Learn how to use, BackboneJS, a MV* Framework~~
+- ~~Learn how to use Firebase~~
+- ~~Get comfortable using APIs ([Nutritionix API](https://developer.nutritionix.com/docs/v1_1))~~
 
 ##Future To Dos
 - Add Calendar functionality to allow user to store data for specific days
