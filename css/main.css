@@ -1,13 +1,43 @@
-body {
+body { /* Prevents NavBar from overlapping main content */
 	padding-top: 40px;
 }
 
-.removeFood.glyphicon-remove-circle {
+.transparency {
+	background: rgba(255,255,255,0.3) !important;
+}
+
+.v-align { /* Vertical Alignment Class */
+	width: 50%;
+	height: 30%;
+	margin: auto;
+	position: absolute;
+	top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.input-header { /* Little block infront of Search Bar */
+	color: #9d9d9d !important;
+	border: none !important;
+	background-color: black !important;
+}
+
+.nav.navbar-nav {
+	cursor: default;
+}
+
+.avocado:hover { /* Keep Cursor to default when hovering over the Avocado Icon */
+	cursor: default;
+}
+
+.list-group-item.transparency:hover { /* Change Background Color of List Items On Hover */
+	background: rgba(255,255,255,0.8) !important;
+}
+
+.removeFood.glyphicon-remove-circle { /* Style X button glyphicon */
 	color: red;
 	font-size: 1.5em;
 }
 
-.hero-screen {
+.hero-screen { /* Style X button glyphicon */
 	padding-top: 40px;
 	background: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)), url(http://i.imgur.com/eOX3ccG.jpg);
 	background-size: cover;
@@ -18,19 +48,19 @@ body {
 	overflow: auto;
 }
 
-.hero-screen h2, h1, p {
+.hero-screen h2, h1, p { /* Set Font Colors */
 	color: white;
 }
 
-#jumbo-head {
-	font-size: 63px;
+#jumbo-head { /* Landing Page Font Sizes */
+	font-size: 3.94em;
 }
 
-#jumbo-text {
-	font-size: 23px;
+#jumbo-text { /* Landing Page Font Sizes */
+	font-size: 1.44em;
 }
 
-#jumbo-button {
+#jumbo-button { /* Landing Page Button Styling */
   	border: 0;
   	height: 20%;
   	width: 30%;
@@ -39,40 +69,6 @@ body {
 #jumbo-button:hover {
 	cursor: default;
 	background: rgba(255,255,255,0.8) !important
-}
-
-.avocado:hover {
-	cursor: default;
-}
-
-.nav.navbar-nav {
-	cursor: default;
-}
-
-.jumbotron h2, h1, p {
-	color: white;
-}
-
-.transparency {
-	background: rgba(255,255,255,0.3) !important;
-}
-
-.input-header {
-	color: #9d9d9d !important;
-	border: none !important;
-	background-color: black !important;
-}
-
-li.list-group-item.transparency:hover {
-	background: rgba(255,255,255,0.8) !important;
-}
-
-.v-align {
-	width: 50%;
-	height: 30%;
-	margin: auto;
-	position: absolute;
-	top: 0; left: 0; bottom: 0; right: 0;
 }
 
 .row#food-list {
@@ -89,22 +85,52 @@ li.list-group-item.transparency:hover {
 	color: white;
 }
 
-#foods, #foods-journal {
+#foods,
+#foods-journal {
 	padding: 0px;
 	list-style: none;
 }
 
-#foods-journal .list-group-item {
-	margin-top: -1px;
-	border-radius: 0;
-	border: 1px solid black;
-}
-
-#foods .list-group-item {
+#foods-journal .list-group-item,
+#foods .list-group-item { /* Remove borders and style list items */
 	margin-top: -1px;
 	border-radius: 0;
 	border: 1px solid black;
 }
 
 @media screen and (max-width: 768px) {
+
+	.v-align { /* Vertical Alignment Class */
+		width: 50%;
+		height: 50%;
+		margin: auto;
+		position: absolute;
+		top: 0; left: 0; bottom: 0; right: 0;
+	}
+
+	#jumbo-head {
+		font-size: 2.5em;
+	}
+
+	#jumbo-text{
+		font-size: 1.2em;
+	}
+
+	#jumbo-button{
+		font-size: 0.8em;
+		height: 20%;
+		width: 40%;
+	}
+
+	#selected-food {
+		text-align: center;
+	}
+
+	#foods-journal .list-group-item{
+		text-align: left;
+	}
+
+	.input-header{
+		font-size: 0.8em !important;
+	}
 }
