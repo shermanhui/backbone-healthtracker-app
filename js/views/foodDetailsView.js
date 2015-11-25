@@ -28,11 +28,12 @@ app.FoodDetailsView = Backbone.View.extend({
 		this.$quantity = $("#quantity");
 
 		if (e.which === ENTER_KEY && this.$quantity.val().trim()){ // need to fix on click..because this if statement prevents adding selected foods
+
 			var numberOfServings = parseInt(this.$quantity.val(), 10);
 
 			this.model.set({ num_servings: numberOfServings });
 
-			app.selectedFoods.add(this.model.toJSON()); // do I HAVE to do it this way??? This is b/c of the way I've passed the model to the bus
+			app.selectedFoods.add(this.model.toJSON());
 		}
 
 	},
