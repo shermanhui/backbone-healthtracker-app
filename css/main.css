@@ -75,10 +75,6 @@ li.list-group-item.transparency:hover {
 	top: 0; left: 0; bottom: 0; right: 0;
 }
 
-#hero-text {
-	color: white;
-}
-
 .row#food-list {
 	margin-right: 15px !important;
 	padding-left: 20px;
@@ -87,6 +83,10 @@ li.list-group-item.transparency:hover {
 .row#search {
 	margin-right: 5px;
 	margin-left: 5px;
+}
+
+#hero-text {
+	color: white;
 }
 
 #foods, #foods-journal {
@@ -105,5 +105,6 @@ li.list-group-item.transparency:hover {
 	border-radius: 0;
 	border: 1px solid black;
 }
+
 @media screen and (max-width: 768px) {
 }

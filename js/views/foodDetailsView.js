@@ -1,13 +1,12 @@
 var app = app || {};
 
-// show food details, such as calories and food type, allow user to select how many servings they've had
-app.FoodDetailsView = Backbone.View.extend({
+app.FoodDetailsView = Backbone.View.extend({// show food details, such as calories and food type, allow user to select how many servings they've had
 
 	el: "#food-details",
 
 	tagName: "div",
 
-	detailedTemplate: template("detailed-template"),
+	detailedTemplate: template("detailed-template"), // grab detailed item view template
 
 	initialize: function(options){
 
@@ -22,6 +21,12 @@ app.FoodDetailsView = Backbone.View.extend({
 		"keypress #quantity" : "addToSelectedFoods"
 
 	},
+
+	/*
+	* @desc Function that sets how many number of servings the user has
+	* @param event object - takes the event object that's passed on keypress and if there is a value
+	* @return Backbone Model - returns an updated backbone Model to the Firebase Collection
+	*/
 
 	addToSelectedFoods : function(e){
 
@@ -38,7 +43,7 @@ app.FoodDetailsView = Backbone.View.extend({
 
 	},
 
-	onShowDetailsOnFood: function(food){ // triggers bus event
+	onShowDetailsOnFood: function(food){ // triggered by bus event to render the food details
 
 		this.model = food;
 
@@ -46,7 +51,7 @@ app.FoodDetailsView = Backbone.View.extend({
 
 	},
 
-	render: function(){
+	render: function(){ // hides detail placeholder and renders food details
 
 		if (app.selectedFoods.length) {
 
