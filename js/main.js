@@ -1,5 +1,3 @@
-app.navView = new app.NavView();
-
 app.Bus = _.extend({}, Backbone.Events); // bus object instantiation, pass bus object to have reference to the data in each view
 
 var router = new app.AppRouter();
