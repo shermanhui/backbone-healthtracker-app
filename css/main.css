@@ -134,3 +134,51 @@ body { /* Prevents NavBar from overlapping main content */
 		font-size: 0.8em !important;
 	}
 }
+
+@media screen and (max-width: 992px){
+	h2 {
+		font-size: 2em !important;
+	}
+
+	p {
+		font-size: 1.3em !important;
+	}
+
+	.list-group-item {
+		font-size: 1.3em !important;
+	}
+
+	.v-align { /* Vertical Alignment Class */
+		width: 50%;
+		height: 30%;
+		margin: auto;
+		position: absolute;
+		top: 0; left: 0; bottom: 0; right: 0;
+	}
+
+	#jumbo-head {
+		font-size: 3em;
+	}
+
+	#jumbo-text{
+		font-size: 2em;
+	}
+
+	#jumbo-button{
+		font-size: 1.1em;
+		height: 20%;
+		width: 40%;
+	}
+
+	#selected-food {
+		text-align: center;
+	}
+
+	#foods-journal .list-group-item{
+		text-align: left;
+	}
+
+	.input-header{
+		font-size: 1em !important;
+	}
+}
