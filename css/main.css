@@ -137,7 +137,7 @@ body { /* Prevents NavBar from overlapping main content */
 
 @media screen and (min-width: 768px) and (max-width: 992px){
 	h2 {
-		font-size: 2em !important;
+		font-size: 3.3em !important;
 	}
 
 	p {
