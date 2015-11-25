@@ -1,7 +1,6 @@
 var app = app || {};
 
-// iterate through foodlist
-app.FoodListView = Backbone.View.extend({
+app.FoodListView = Backbone.View.extend({ // User Searched Food Item View
 
 	el: "#foods",
 
@@ -9,7 +8,7 @@ app.FoodListView = Backbone.View.extend({
 
 	initialize: function(options){
 
-		this.bus = options.bus;
+		this.bus = options.bus; // set up the Event bus
 
 		this.listenTo(this.collection, 'reset', this.render);
 
@@ -26,9 +25,9 @@ app.FoodListView = Backbone.View.extend({
 
 		this.$el.empty(); // empty collection on new render
 
-		self.collection.each(function(food){
+		self.collection.each(function(food){ // iterate through collection to render each list item
 
-			var renderedFood = new app.FoodItemView({model: food, bus: self.bus});
+			var renderedFood = new app.FoodItemView({model: food, bus: self.bus}); // pass in each item that's to be rendered
 
 			self.$el.append(renderedFood.render().$el);
 
@@ -39,7 +38,7 @@ app.FoodListView = Backbone.View.extend({
 
 });
 
-app.showFoodJournalList = Backbone.View.extend({
+app.showFoodJournalList = Backbone.View.extend({ // User Stored Food Items View
 
 	el:"#foods-journal",
 
@@ -55,7 +54,7 @@ app.showFoodJournalList = Backbone.View.extend({
 
 	},
 
-	addOne: function(food){
+	addOne: function(food){ // takes a food item and renders it
 
 		var renderedJournal = new app.ShowFoodJournalItem({model: food});
 
@@ -63,13 +62,13 @@ app.showFoodJournalList = Backbone.View.extend({
 
 	},
 
-	renderTotal: function(){
+	renderTotal: function(){ // renders total calories consumed
 		var cals = 0;
 		var servings = 0;
 		var item_cal = 0;
 		var total_calories = 0;
 
-		this.collection.each(function(model){
+		this.collection.each(function(model){ // iterate through collection to calculate total calories consumed
 
 			cals = model.get("nf_calories");
 
@@ -82,15 +81,15 @@ app.showFoodJournalList = Backbone.View.extend({
 			return total_calories;
 		});
 
-		$("#total-calories").html(this.totalCalTemplate({total_cals : total_calories}));
+		$("#total-calories").html(this.totalCalTemplate({total_cals : total_calories})); // update DOM element to current calories consumed
 
 	},
 
 	render: function(){
 
-		this.$el.empty();
+		this.$el.empty(); // empties collection to prevent duplicate items rendering
 
-		this.collection.each(this.addOne, this);
+		this.collection.each(this.addOne, this); // iterate through collection to render each list item
 	}
 
 });

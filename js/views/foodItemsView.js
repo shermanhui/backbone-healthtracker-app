@@ -1,11 +1,10 @@
 var app = app || {};
 
-// Dom element for individual food items
-app.FoodItemView = Backbone.View.extend({
+app.FoodItemView = Backbone.View.extend({ // View for Individual Food Items
 
 	tagName: 'li',
 
-	listTemplate: template("list-template"),
+	listTemplate: template("list-template"), // grab food list template
 
 	initialize: function(options){
 
@@ -21,25 +20,24 @@ app.FoodItemView = Backbone.View.extend({
 
 	onClick: function(){
 
-		this.bus.trigger("showDetailsOnFood", this.model);
+		this.bus.trigger("showDetailsOnFood", this.model); // shows user details on food item
 
 	},
 
 	render: function(){
 
-		this.$el.html(this.listTemplate(this.model.toJSON())); // can do $("#foods").append to get list to show up...but breaks a lot of things
+		this.$el.html(this.listTemplate(this.model.toJSON()));
 
 		return this;
 	}
 
 });
 
-// render each item in Food Diary
-app.ShowFoodJournalItem = Backbone.View.extend({
+app.ShowFoodJournalItem = Backbone.View.extend({ // View for each Stored Food Item
 
 	tagName: "li",
 
-	journalTemplate: template("journal-template"),
+	journalTemplate: template("journal-template"), // grab stored food list template
 
 	initialize: function(){
 

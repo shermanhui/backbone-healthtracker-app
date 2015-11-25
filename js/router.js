@@ -1,9 +1,10 @@
 var app = app || {};
 
-app.AppRouter = Backbone.Router.extend({
+app.AppRouter = Backbone.Router.extend({ // set up the router functionality for the project
+
 	initialize: function(){
 
-		appView = new app.AppView();
+		appView = new app.AppView(); // when the router is initialized, instantiate the appview to get everything else up and running
 
 	},
 

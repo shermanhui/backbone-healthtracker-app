@@ -1,17 +1,6 @@
-//  define app for namespacing
-var app = app || {};
+var app = app || {}; //  define app for namespacing
 
-// template fetching helper function in global namespace
-var template = function(id){
-
-	return _.template($("#" + id).html());
-
-};
-
-var ENTER_KEY = 13;
-
-// Food Model
-app.FoodItem = Backbone.Model.extend({
+app.FoodItem = Backbone.Model.extend({ // Food Model
 
 	initialize: function(attrs){
 

@@ -1,13 +1,12 @@
 var app = app || {};
 
-// overall App view, this is helpful b/c events only look at decendants of "el"
-app.AppView = Backbone.View.extend({
+app.AppView = Backbone.View.extend({ // overall App view, this is helpful b/c events only look at the decendants of "el"
 
 	el: ".healthapp",
 
-	jumboTemplate: template("jumbotron-template"),
+	jumboTemplate: template("jumbotron-template"), // grab landing page template
 
-	appTemplate: template("app-template"),
+	appTemplate: template("app-template"), // grab application structure template
 
 	initialize: function(){
 
@@ -15,7 +14,7 @@ app.AppView = Backbone.View.extend({
 
 		app.selectedFoods = new app.FoodJournal(); // initialize stored collection of food
 
-		app.foodDetailView = new app.FoodDetailsView({bus: app.Bus}); // selected food item
+		app.foodDetailView = new app.FoodDetailsView({bus: app.Bus}); // initialize selected food item
 
 		app.foodListView = new app.FoodListView({collection: app.foods, bus: app.Bus}); // new food list view
 
@@ -35,6 +34,12 @@ app.AppView = Backbone.View.extend({
 		app.navView.onClick(e);
 
 	},
+
+	/*
+	* @desc Updates Food Collection URL and fetches data from API to render food list on screen
+	* @param string - user input for the food they ate
+	* @return Backbone collection - returns a backbone collection and renders it, also clears the searchbar
+	*/
 
 	searchOnEnter: function(e){
 		this.$input = this.$("#search-bar");
@@ -67,6 +72,12 @@ app.AppView = Backbone.View.extend({
 		}
 	},
 
+	/*
+	* @desc Helper function that calls setElement in order to ensure Views don't lose bindings to event handlers in the DOM
+	* @param string jQuery selector - takes a HTML selector tag
+	* @param string Backbone View - takes a Backbone View
+	*/
+
 	assign: function(selector, view) {
 
 		var selectors;
@@ -94,32 +105,37 @@ app.AppView = Backbone.View.extend({
 
 	render: function(){
 
-		this.$el.html(this.appTemplate());
+		this.$el.html(this.appTemplate()); // renders the basic app structure
 
-		app.foodJournal.setElement(this.$("food-details")).renderTotal();
+		app.foodJournal.setElement(this.$("food-details")).renderTotal(); // manually call setElement for "#total-calories" counter
 
-		this.assign({
+		this.assign({ // assign renders each respective view
 			'#foods'         : app.foodListView,
 			'#food-details'  : app.foodDetailView,
-			"#foods-journal" : app.foodJournal
+			'#foods-journal' : app.foodJournal
 		});
 
 		return this;
 	},
 
-	renderJumbo: function(){
+	renderJumbo: function(){ // render the landing page user's see
 		this.$el.html(this.jumboTemplate());
 
 		return this;
 	}
 });
 
-app.NavView = Backbone.View.extend({
+app.NavView = Backbone.View.extend({ // NavBar View
 	el: ".nav",
 
-	events: {
+	events: { // event listener
 		"click": "onClick"
 	},
+
+	/*
+	* @desc Listens to user clicks on the navbar items and the router listens to the item clicked
+	* @param event object - takes the event object that happens on click
+	*/
 
 	onClick: function(e){
 		var $li = $(e.target);
@@ -129,4 +145,4 @@ app.NavView = Backbone.View.extend({
 	}
 });
 
-app.navView = new app.NavView();
+app.navView = new app.NavView(); // initialize the navbar view
