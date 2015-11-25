@@ -1,14 +1,5 @@
 var app = app || {};
 
-// template fetching helper function in global namespace
-var template = function(id){
-
-	return _.template($("#" + id).html());
-
-};
-
-var ENTER_KEY = 13;
-
 // overall App view, this is helpful b/c events only look at decendants of "el"
 app.AppView = Backbone.View.extend({
 
@@ -135,3 +126,5 @@ app.NavView = Backbone.View.extend({
 		router.navigate(url, {trigger: true});
 	}
 });
+
+app.navView = new app.NavView();
