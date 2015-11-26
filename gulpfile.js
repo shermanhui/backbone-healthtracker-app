@@ -28,7 +28,7 @@ gulp.task('usemin', function() {
       inlinejs: [ uglify() ],
       inlinecss: [ minifyCss(), 'concat' ]
     }))
-    .pipe(gulp.dest('build/'));
+    .pipe(gulp.dest('dist/'));
 });
 
 // configure which files to watch and what tasks to use on file changes
