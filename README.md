@@ -2,7 +2,7 @@
 SPA that tracks a user's calorie intake, and optionally, other health-related metrics.
 
 ##How To Use
-- Visit shui91.github.io/backbone-healthtracker-app or download and run `index.html`
+- Visit shui91.github.io/backbone-healthtracker-app or download and run `index.html` in the src/ folder
 - Click on 'Tracker' tab or button on landing page to access application
 - Search for a food you've eaten
 - Click on the appropriate item to have details displayed on the right handside
