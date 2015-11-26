@@ -1,0 +1,36 @@
+{
+  "name": "backbone-healthtracker-app",
+  "version": "1.0.0",
+  "description": "basic calorie tracking app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shui91/backbone-healthtracker-app.git"
+  },
+  "keywords": [
+    "backbone",
+    "firebase",
+    "gulp"
+  ],
+  "author": "Sherman Hui",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shui91/backbone-healthtracker-app/issues"
+  },
+  "homepage": "https://github.com/shui91/backbone-healthtracker-app#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^2.0.0",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-minify-html": "^1.0.4",
+    "gulp-rev": "^6.0.1",
+    "gulp-uglify": "^1.5.1",
+    "gulp-usemin": "^0.3.16",
+    "gulp-util": "^3.0.7",
+    "jshint": "^2.8.0",
+    "jshint-stylish": "^2.1.0"
+  }
+}

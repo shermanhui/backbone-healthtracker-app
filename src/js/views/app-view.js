@@ -56,7 +56,7 @@ app.AppView = Backbone.View.extend({ // overall App view, this is helpful b/c ev
 
 				if (app.foods.length === 0) {
 
-					$("#list-placeholder").text("No Results Found, Please Check Your Search Query!")
+					$("#list-placeholder").text("No Results Found, Please Check Your Search Query!");
 
 				} else {
 
