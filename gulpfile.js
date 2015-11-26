@@ -4,6 +4,8 @@
 var gulp   = require('gulp'),
     jshint = require('gulp-jshint');
     usemin = require('gulp-usemin');
+    gp_concat = require('gulp-concat');
+    rename = require('gulp-rename');
     uglify = require('gulp-uglify');
     minifyHtml = require('gulp-minify-html');
     minifyCss = require('gulp-minify-css');
@@ -19,8 +21,17 @@ gulp.task('jshint', function() {
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
+gulp.task('optimizejs', function(){
+    return gulp.src(['src/**/*.js'])
+        .pipe(gp_concat('concat.js'))
+        .pipe(gulp.dest('dist/'))
+        .pipe(rename('optimized.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('dist/'));
+});
+
 gulp.task('usemin', function() {
-  return gulp.src('./*.html')
+  return gulp.src('src/*.html')
     .pipe(usemin({
       css: [ rev() ],
       html: [ minifyHtml({ empty: true }) ],
